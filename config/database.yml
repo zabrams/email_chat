@@ -1,0 +1,29 @@
+# SQLite version 3.x
+#   gem install sqlite3
+#
+#   Ensure the SQLite 3 gem is defined in your Gemfile
+#   gem 'sqlite3'
+#
+development:
+  adapter: postgresql
+  database: email_chat_database_development
+  pool: 5
+  timeout: 5000
+  #username: zabrams
+  #password:
+
+test:
+  adapter: postgresql
+  database: email_chat_database_test
+  pool: 5
+  timeout: 5000
+  #username: zabrams
+  #password:
+
+production:
+  adapter: postgresql
+  database: email_chat_database_production
+  pool: 5
+  timeout: 5000
+  #username: sample
+  #password:
