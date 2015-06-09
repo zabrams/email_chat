@@ -18,6 +18,9 @@ gem 'jquery-rails',            '4.0.3'
 gem 'turbolinks',              '2.3.0'
 gem 'jbuilder',                '2.2.3'
 gem 'sdoc',                    '0.4.0', group: :doc
+gem 'omniauth',                '~> 1.2.2'
+gem 'omniauth-google-oauth2'
+gem 'json'
 
 group :development, :test do
   #gem 'pg'
