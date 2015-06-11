@@ -1,5 +1,5 @@
 class SessionsController < ApplicationController
-	layout false
+	#layout false
 
 	def new
 	end
@@ -9,7 +9,7 @@ class SessionsController < ApplicationController
 		email = auth_hash['info']['email']
 		@user = User.find_by(email: email) || create_user(auth_hash)
 		if @user
-			flash[:success] = "Signed in!"
+			flash.now[:success] = "Signed in!"
 		else
 			flash[:danger] = "Oops, something went wrong!"
 			redirect_to root_path
