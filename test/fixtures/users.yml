@@ -1,15 +1,15 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  name: MyString
-  email: MyString
-  access_token: MyString
-  refresh_token: MyString
+marcus:
+  name: Marcus Smart
+  email: marcus@gmail.com
+  access_token: 1234
+  refresh_token: 1234
   expires_at: 2015-06-10 14:53:56
 
-two:
-  name: MyString
-  email: MyString
-  access_token: MyString
-  refresh_token: MyString
+jeremy:
+  name: Jeremy Jay
+  email: jj@gmail.com
+  access_token: 12345
+  refresh_token: 12345
   expires_at: 2015-06-10 14:53:56
