@@ -30,6 +30,4 @@ class SessionsController < ApplicationController
 			request.env['omniauth.auth']
 		end
 
-		def asd
-		end
 end
