@@ -5,17 +5,23 @@ class SessionsController < ApplicationController
 	end
 
 	def create 
-		auth = auth_hash['credentials']
+		#auth = auth_hash['credentials']
 		email = auth_hash['info']['email']
 		user = User.find_by(email: email) || create_user(auth_hash)
 		if user
 			log_in(user)
 			flash.now[:success] = "Signed in!"
-			redirect_to messages_path
+			redirect_to messages_url
 		else
 			flash[:danger] = "Oops, something went wrong!"
-			redirect_to root_path
+			redirect_to root_url
 		end
+	end
+
+	def destory
+		log_out
+		flash.now[:success] = "You've been signed out!"
+		redirect_to root_url
 	end
 
 	def create_user(auth_hash)
@@ -26,6 +32,7 @@ class SessionsController < ApplicationController
 			refresh_token: auth_hash['credentials']['refresh_token'],
 			expires_at: Time.at(auth_hash['credentials']['expires_at']).to_datetime)
 	end
+
 
 	private
 		def auth_hash
