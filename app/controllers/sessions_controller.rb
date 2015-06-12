@@ -5,11 +5,13 @@ class SessionsController < ApplicationController
 	end
 
 	def create 
-		@auth = auth_hash['credentials']
+		auth = auth_hash['credentials']
 		email = auth_hash['info']['email']
-		@user = User.find_by(email: email) || create_user(auth_hash)
-		if @user
+		user = User.find_by(email: email) || create_user(auth_hash)
+		if user
+			log_in(user)
 			flash.now[:success] = "Signed in!"
+			redirect_to messages_path
 		else
 			flash[:danger] = "Oops, something went wrong!"
 			redirect_to root_path
