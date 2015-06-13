@@ -5,3 +5,10 @@
 	<% end %>
 </ul>
 
+<h1>Messages (<%= @inbox_size %>)</h1>
+<ul>
+	<% @messages.each do |message| %>
+		<li><%= message %></li>
+	<% end %>
+</ul>
+

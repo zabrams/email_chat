@@ -14,5 +14,13 @@ class Gmail
 		JSON.parse(results.body)['labels']
 	end 
 
+	def inbox
+		results = @client.execute!(
+    		:api_method => @service.users.messages.list,
+    		:parameters => {'userId' => 'me', 'labelIds' => ['INBOX'] },
+    		:headers => {'Content-Type' => 'application/json'})
+  		JSON.parse(results.body)
+  	end
+
 	
 end
