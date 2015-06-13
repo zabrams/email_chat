@@ -1,2 +1,7 @@
-<p><%= @object %></p>
+<h1>Labels</h1>
+<ul>
+	<% @labels.each do |label| %>
+		<li><%= label['name'].capitalize %></li>
+	<% end %>
+</ul>
 
