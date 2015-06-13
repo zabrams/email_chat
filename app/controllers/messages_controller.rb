@@ -1,6 +1,10 @@
 class MessagesController < ApplicationController
+
 	def index
-		current_user
+		@object = Gmail.new(current_user.fresh_token).labels
+	end
+
+	def inbox
 	end
 
 		
