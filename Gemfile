@@ -21,6 +21,7 @@ gem 'sdoc',                    '0.4.0', group: :doc
 gem 'omniauth',                '~> 1.2.2'
 gem 'omniauth-google-oauth2'
 gem 'json'
+gem 'google-api-client', :require => 'google/api_client'
 
 group :development, :test do
   #gem 'pg'
