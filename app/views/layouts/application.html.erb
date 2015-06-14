@@ -17,14 +17,8 @@
     <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   </head>
   <body>
-
-    <!-- Make sure all your bars are the first things in your <body> -->
-    <header class="bar bar-nav">
-      <a class="icon icon-left-nav pull-left" href="/index.html" data-transition="slide-out"></a>
-      <h1 class="title">Email Chat</h1>
-    </header>
-
-    <!-- Wrap all non-bar HTML in the .content div (this is actually what scrolls) -->
+    <%= render 'layouts/header' %>
+    <!-- make sure to wrap all non-bar HTML in the .content div (this is actually what scrolls) -->
     <div class="content">
       <div class="content-padded">
         <% flash.each do |message_type, message| %>

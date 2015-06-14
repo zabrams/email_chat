@@ -40,7 +40,10 @@ class Gmail
 	end
 
 	def get_gmail_body(gmail_data)
-  		body = gmail_data['payload']['parts'].last['body']['data']
+  		#raw text version 
+      body = gmail_data['payload']['parts'].first['body']['data']
+      #html version
+      #body = gmail_data['payload']['parts'].last['body']['data']
   		Base64.urlsafe_decode64(body)
 	end
 

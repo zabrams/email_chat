@@ -1,10 +1,38 @@
-<h1>Labels</h1>
-<ul>
-	<% @labels.each do |label| %>
-		<li><%= label['name'].capitalize %></li>
-	<% end %>
+<h4>Messages (<%= @inbox_size %>)</h4>
+<ul class="table-view">
+  <% @messages.each do |message| %>
+    <% msg = @gmail.get_details(message['id']) %>
+    <li class="table-view-cell media">
+      <a class="navigate-right">
+      	<!-- Insert real # below -->
+        <span class="badge">5</span>
+        <!-- Insert real images below -->
+        <img class="media-object pull-left" src="http://placehold.it/42x42">
+        <div class="media-body">
+          <p><%= msg[:from] %></p>
+          <p><%= msg[:subject] %> | <%= msg[:body] %></p>
+        </div>
+      </a>
+    </li>
+  <% end %>
+</ul>
+<br>
+<h4>Labels</h4>
+<ul class="table-view">
+  <% @labels.each do |label| %>
+    <li class="table-view-cell media">
+      <a class="navigate-right">
+        <!-- Insert real # below -->
+        <span class="badge">5</span>
+	    <div class="media-body">
+	      <p><%= label['name'].capitalize %></p>
+	    </div>
+	  </a>
+	</li>
+  <% end %>
 </ul>
 
+<!--
 <h1>Messages (<%= @inbox_size %>)</h1>
 <div>
 	<% @messages.each do |message| %>
@@ -16,4 +44,5 @@
 	</br>
 	<% end %>
 </div>
+-->
 
