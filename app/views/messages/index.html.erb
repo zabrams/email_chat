@@ -6,9 +6,13 @@
 </ul>
 
 <h1>Messages (<%= @inbox_size %>)</h1>
-<ul>
+<div>
 	<% @messages.each do |message| %>
-		<li><%= message %></li>
+		<% msg = @gmail.get_details(message['id']) %>
+		<h2>Subject: <%= msg[:subject] %></h2>
+		<p>From: <%= msg[:from] %></p>
+		<p>Body: <%= msg[:body] %></p>
+	</br>
 	<% end %>
-</ul>
+</div>
 

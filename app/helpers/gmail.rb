@@ -22,5 +22,27 @@ class Gmail
   		JSON.parse(results.body)
   	end
 
+  	def get_details(id)
+  		results = @client.execute!(
+   			:api_method => @service.users.messages.get,
+   			:parameters => {'userId' => 'me', 'id' => id, 'format' => 'full'},
+    		:headers => {'Content-Type' => 'application/json'})
+  		data = JSON.parse(results.body)
+  		{ subject: get_gmail_attribute(data, 'Subject'),
+    	from: get_gmail_attribute(data, 'From'),
+    	body: get_gmail_body(data) }
+  	end
+
+  	def get_gmail_attribute(gmail_data, attribute)
+  		headers = gmail_data['payload']['headers']
+  		array = headers.reject { |hash| hash['name'] != attribute }
+  		array.first['value']
+	end
+
+	def get_gmail_body(gmail_data)
+  		body = gmail_data['payload']['parts'].first['body']['data']
+  		Base64.urlsafe_decode64(body)
+	end
+
 	
 end
