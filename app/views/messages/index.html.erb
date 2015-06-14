@@ -11,7 +11,8 @@
 		<% msg = @gmail.get_details(message['id']) %>
 		<h2>Subject: <%= msg[:subject] %></h2>
 		<p>From: <%= msg[:from] %></p>
-		<p>Body: <%= msg[:body] %></p>
+		<p>Body:</p> 
+		<%= raw msg[:body] %>
 	</br>
 	<% end %>
 </div>
