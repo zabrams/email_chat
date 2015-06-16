@@ -17,7 +17,9 @@
     <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   </head>
   <body>
-    <%= render 'layouts/header' %>
+    <% if logged_in? %>
+      <%= render 'layouts/header' %>
+    <% end %>
     <!-- make sure to wrap all non-bar HTML in the .content div (this is actually what scrolls) -->
     <div class="content">
       <div class="content-padded">

@@ -1,7 +1,10 @@
 <header class="bar bar-nav">
-	<% if logged_in? %>
+	<% if messages_url %>
+		<%= link_to "Log out", logout_path, method: :delete, class: 'btn pull-left' %>
+	<% else %>
 		<a class="icon icon-left-nav pull-left" href="/index.html" data-transition="slide-out"></a>
-      	<a class="icon icon-compose pull-right"></a>
 	<% end %>
-      	<h1 class="title">Email Chat</h1>
+    <a class="icon icon-compose pull-right"></a>
+    <h1 class="title">Email Chat</h1>
 </header>
+
