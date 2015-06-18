@@ -7,10 +7,13 @@
       	<!-- Insert real # below -->
         <span class="badge">5</span>
         <!-- Insert real images below -->
-        <img class="media-object pull-left" src="http://placehold.it/42x42">
+        <p class="name-image media-object pull-left">
+          <%= msg[:from].gsub(/\W/,'')[0,1] %>
+        </p>
         <div class="media-body">
           <p><%= msg[:from] %></p>
           <p><%= msg[:subject] %> | <%= msg[:body] %></p>
+          <!-- <p><%= msg[:data] %></p> -->
         </div>
       </a>
     </li>
@@ -31,6 +34,7 @@
 	</li>
   <% end %>
 </ul>
+
 
 <!--
 <h1>Messages (<%= @inbox_size %>)</h1>

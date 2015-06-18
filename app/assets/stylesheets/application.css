@@ -14,3 +14,13 @@
  *= require_self
  *= require ratchet
  */
+
+/* Messages */
+
+.name-image {
+	font-size: 30px;
+	padding: 9px 11px;
+	color: white;
+	background-color: rgb(75,193,174);
+	border-radius: 2px;
+}

@@ -4,6 +4,7 @@ class Gmail
 		@client = Google::APIClient.new(:application_name => "Email Chat")
 		@client.authorization.access_token = token
 		@service = @client.discovered_api('gmail', 'v1')
+    @plus = @client.discovered_api('plus', 'v1')
 	end 
 
 	def labels 
@@ -20,9 +21,9 @@ class Gmail
     		:parameters => {'userId' => 'me', 'labelIds' => ['INBOX'] },
     		:headers => {'Content-Type' => 'application/json'})
   		JSON.parse(results.body)
-  	end
+  end
 
-  	def get_details(id)
+  def get_details(id)
   		results = @client.execute!(
    			:api_method => @service.users.messages.get,
    			:parameters => {'userId' => 'me', 'id' => id, 'format' => 'full'},
@@ -30,10 +31,10 @@ class Gmail
   		data = JSON.parse(results.body)
   		{ subject: get_gmail_attribute(data, 'Subject'),
     	from: get_gmail_attribute(data, 'From'),
-    	body: get_gmail_body(data) }
-  	end
+    	body: get_gmail_body(data), data: data }
+  end
 
-  	def get_gmail_attribute(gmail_data, attribute)
+  def get_gmail_attribute(gmail_data, attribute)
   		headers = gmail_data['payload']['headers']
   		array = headers.reject { |hash| hash['name'] != attribute }
   		array.first['value']
@@ -46,6 +47,7 @@ class Gmail
       #body = gmail_data['payload']['parts'].last['body']['data']
   		Base64.urlsafe_decode64(body)
 	end
+
 
 	
 end
