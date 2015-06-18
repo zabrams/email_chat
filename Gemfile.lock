@@ -89,7 +89,7 @@ GEM
       fog-core (~> 1.22)
       fog-json
       inflecto (~> 0.0.2)
-    fog-core (1.30.0)
+    fog-core (1.31.1)
       builder
       excon (~> 0.45)
       formatador (~> 0.2)
@@ -151,7 +151,7 @@ GEM
     jwt (1.5.0)
     launchy (2.4.3)
       addressable (~> 2.3)
-    listen (2.10.0)
+    listen (2.10.1)
       celluloid (~> 0.16.0)
       rb-fsevent (>= 0.9.3)
       rb-inotify (>= 0.9)
@@ -213,7 +213,7 @@ GEM
       slop (~> 3.4)
     puma (2.11.1)
       rack (>= 1.1, < 2.0)
-    rack (1.6.1)
+    rack (1.6.2)
     rack-test (0.6.3)
       rack (>= 1.0)
     rails (4.2.0)
