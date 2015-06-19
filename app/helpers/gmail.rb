@@ -31,7 +31,19 @@ class Gmail
   		data = JSON.parse(results.body)
   		{ subject: get_gmail_attribute(data, 'Subject'),
     	from: get_gmail_attribute(data, 'From'),
-    	body: get_gmail_body(data), data: data }
+    	body: get_gmail_body(data), 
+      sender: get_gmail_attribute(data, 'Return-Path'),
+      date:  get_gmail_attribute(data, 'Date'),
+      #data: data
+      }
+  end
+
+  def get_messages_from(sender)
+      results = @client.execute!(
+        :api_method => @service.users.messages.list,
+        :parameters => {'userId' => 'me', 'q' => "from:#{sender}" },
+        :headers => {'Content-Type' => 'application/json'})
+      JSON.parse(results.body)
   end
 
   def get_gmail_attribute(gmail_data, attribute)

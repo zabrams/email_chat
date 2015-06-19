@@ -1,7 +1,6 @@
-<h4>Messages (<%= @inbox_size %>)</h4>
+<h4>Messages (<%= @details.count %>)</h4>
 <ul class="table-view">
-  <% @messages.each do |message| %>
-    <% msg = @gmail.get_details(message['id']) %>
+  <% @details.each do |id, msg| %>
     <li class="table-view-cell media">
       <a class="navigate-right">
       	<!-- Insert real # below -->
@@ -15,38 +14,38 @@
           <p><%= msg[:subject] %> | <%= msg[:body] %></p>
           <!-- <p><%= msg[:data] %></p> -->
         </div>
+        
+        <br>
+        <h3><%= @gmail.get_messages_from(msg[:sender])['resultSizeEstimate'] %></h3>
       </a>
     </li>
   <% end %>
 </ul>
 <br>
-<h4>Labels</h4>
+<br>
 <ul class="table-view">
-  <% @labels.each do |label| %>
+  <h4>Sender hash</h4>
+    <% @sender_hash.each do |sender, email| %>
     <li class="table-view-cell media">
       <a class="navigate-right">
         <!-- Insert real # below -->
-        <span class="badge">5</span>
-	    <div class="media-body">
-	      <p><%= label['name'].capitalize %></p>
-	    </div>
-	  </a>
-	</li>
-  <% end %>
+        <span class="badge"><%= email.count %></span>
+        <!-- Look at the email hash, take the first date + email pair, and pull our the get_details hash -->
+        <% most_recent = email.first.last %>
+        <p class="name-image media-object pull-left">
+          <%= most_recent[:from].gsub(/\W/,'')[0,1] %>
+        </p>
+        <div class="media-body">
+          <p><%= most_recent[:from] %></p>
+          <!-- only show the subject and body of first email - probably want to change -->
+          <p><%= most_recent[:subject] %> | <%= most_recent[:body] %></p>
+        </div>
+      </a>
+    </li>
+    <% end %>
 </ul>
 
 
-<!--
-<h1>Messages (<%= @inbox_size %>)</h1>
-<div>
-	<% @messages.each do |message| %>
-		<% msg = @gmail.get_details(message['id']) %>
-		<h2>Subject: <%= msg[:subject] %></h2>
-		<p>From: <%= msg[:from] %></p>
-		<p>Body:</p> 
-		<%= raw msg[:body] %>
-	</br>
-	<% end %>
-</div>
--->
+
+
 
