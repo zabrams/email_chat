@@ -1,9 +1,9 @@
 Rails.application.routes.draw do
-  root to: 'sessions#new'
+  root :to => 'sessions#new'
   delete 'logout' => 'sessions#destroy'
   #resources :sessions, only: :index
   get "/auth/:provider/callback" => 'sessions#create'
-  resources :messages
+  resources :messages, param: :sender
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

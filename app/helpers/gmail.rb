@@ -29,8 +29,11 @@ class Gmail
    			:parameters => {'userId' => 'me', 'id' => id, 'format' => 'full'},
     		:headers => {'Content-Type' => 'application/json'})
   		data = JSON.parse(results.body)
-  		{ subject: get_gmail_attribute(data, 'Subject'),
+  		sender = get_gmail_attribute(data, 'Return-Path')
+      
+      { subject: get_gmail_attribute(data, 'Subject'),
     	from: get_gmail_attribute(data, 'From'),
+      snippet:  data['snippet'],
     	body: get_gmail_body(data), 
       sender: get_gmail_attribute(data, 'Return-Path'),
       date:  get_gmail_attribute(data, 'Date'),

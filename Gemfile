@@ -23,6 +23,7 @@ gem 'omniauth-google-oauth2'
 gem 'json'
 gem 'google-api-client', :require => 'google/api_client'
 gem 'ratchet-sass'
+gem 'activerecord-session_store', github: 'rails/activerecord-session_store'
 
 group :development, :test do
   #gem 'pg'

@@ -1,34 +1,10 @@
 <h4>Messages (<%= @details.count %>)</h4>
 <ul class="table-view">
-  <% @details.each do |id, msg| %>
+    <% @sender_hash.each do |id, email| %>
     <li class="table-view-cell media">
-      <a class="navigate-right">
-      	<!-- Insert real # below -->
-        <span class="badge">5</span>
-        <!-- Insert real images below -->
-        <p class="name-image media-object pull-left">
-          <%= msg[:from].gsub(/\W/,'')[0,1] %>
-        </p>
-        <div class="media-body">
-          <p><%= msg[:from] %></p>
-          <p><%= msg[:subject] %> | <%= msg[:body] %></p>
-          <!-- <p><%= msg[:data] %></p> -->
-        </div>
-        
-        <br>
-        <h3><%= @gmail.get_messages_from(msg[:sender])['resultSizeEstimate'] %></h3>
-      </a>
-    </li>
-  <% end %>
-</ul>
-<br>
-<br>
-<ul class="table-view">
-  <h4>Sender hash</h4>
-    <% @sender_hash.each do |sender, email| %>
-    <li class="table-view-cell media">
-      <a class="navigate-right">
-        <!-- Insert real # below -->
+      <!-- passing email addresses here is causing issues %> -->
+      <%= link_to message_path(:sender => id), :class => "navigate-right" do %>
+      <!-- <a class="navigate-right"> -->
         <span class="badge"><%= email.count %></span>
         <!-- Look at the email hash, take the first date + email pair, and pull our the get_details hash -->
         <% most_recent = email.first.last %>
@@ -40,10 +16,12 @@
           <!-- only show the subject and body of first email - probably want to change -->
           <p><%= most_recent[:subject] %> | <%= most_recent[:body] %></p>
         </div>
-      </a>
+      <!-- </a> -->
+      <% end %>
     </li>
     <% end %>
 </ul>
+
 
 
 
