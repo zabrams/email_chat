@@ -13,8 +13,9 @@ class MessagesController < ApplicationController
 	end
 
 	def show
-		@sender = params[:sender].to_i
-		@msgs = session[:sender_hash][@sender]
+		@sender_id = params[:sender].to_i
+		@msgs = session[:sender_hash][@sender_id]
+		@sender = get_name(@msgs)[:from]
 		#@sender_messages = @sender_hash[sender]
 	end
 
@@ -56,14 +57,14 @@ class MessagesController < ApplicationController
 			@sender_hash = {}
 			@details.each do |sender, data|
 				name = data[:sender]
+				id = rand(10 ** 10)
 				if @sender_hash.blank?
-					id = rand(10 ** 10)
 					@sender_hash.merge!( id => { data[:date] => data } )
 				else
 					exist = false
-					@sender_hash.each do |id, email_hash|
-						@id = id
-						sender = email_hash.first.last[:sender]
+					@sender_hash.each do |hash_id, email_hash|
+						@existing_id = hash_id
+						sender = get_attribute(email_hash)[:sender]
 						if name == sender
 							exist = true
 						else
@@ -72,13 +73,19 @@ class MessagesController < ApplicationController
 					end
 
 					if exist
-						@sender_hash[@id].merge!( data[:date] => data )
+						@sender_hash[@existing_id].merge!( data[:date] => data )
 					else
-						id = rand(10 ** 10)
 						@sender_hash.merge!( id => { data[:date] => data } )
 					end
 				end
 			end
+		end
+
+		def get_attribute(hash)
+			#takes the data hash and returns first k, v 
+			#as an array. Then we take the email_hash
+			#and use that to ask for a specific item. 
+			hash.first.last
 		end
 
 		#Create Similar variable for retrieving messages

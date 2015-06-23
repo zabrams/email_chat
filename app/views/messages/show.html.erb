@@ -1,3 +1,12 @@
-<h1>Messages!</h1>
-<p><%= @sender %></p>
-<p><%= @msgs %></p>
+<h4><%= @sender %></h4>
+<ul class="table-view">
+  <% @msgs.each do |date, email| %>
+  <li class="table-view-cell media">
+    <div class="media-body">
+      <p><%= email[:body] %></p>
+      <h5><%= date %></h5>
+    </div>
+  </li>
+  <% end %>
+</ul>
+<button class="btn btn-block btn-outlined">Search old messages</button>
