@@ -60,7 +60,7 @@ class Gmail
       body = gmail_data['payload']['parts'].first['body']['data']
       #html version
       #body = gmail_data['payload']['parts'].last['body']['data']
-  		Base64.urlsafe_decode64(body)
+  		Base64.urlsafe_decode64(body.to_s)
 	end
 
 

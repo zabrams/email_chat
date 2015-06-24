@@ -15,7 +15,7 @@ class MessagesController < ApplicationController
 	def show
 		@sender_id = params[:sender].to_i
 		@msgs = session[:sender_hash][@sender_id]
-		@sender = get_name(@msgs)[:from]
+		@sender = get_attribute(@msgs)[:from]
 		#@sender_messages = @sender_hash[sender]
 	end
 

@@ -1,12 +1,18 @@
-<h4><%= @sender %></h4>
-<ul class="table-view">
-  <% @msgs.each do |date, email| %>
-  <li class="table-view-cell media">
-    <div class="media-body">
-      <p><%= email[:body] %></p>
-      <h5><%= date %></h5>
-    </div>
-  </li>
-  <% end %>
-</ul>
+<p class="header"><%= @sender %></p>
+<section>
+	<% @msgs.each do |date, email| %>	
+		<div class="clear"></div>
+		<p class="datetime"><%= date %></p>
+		<div class="from-them">
+		  <p><%= email[:body] %></p>
+		</div>
+	<% end %>
+	<!-- RESPONSE BUBBLE BELOW 
+	<div class="clear"></div>
+	<div class="from-me">
+	  <p>Wow that's impressive. But what's even more impressive is that this bubble is really high.</p>
+	</div>
+	-->
+</section>
+
 <button class="btn btn-block btn-outlined">Search old messages</button>
