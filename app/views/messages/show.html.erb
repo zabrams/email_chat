@@ -1,18 +1,25 @@
-<p class="header"><%= @sender %></p>
-<section>
-	<% @msgs.each do |date, email| %>	
-		<div class="clear"></div>
-		<p class="datetime"><%= date %></p>
-		<div class="from-them">
-		  <p><%= email[:body] %></p>
-		</div>
-	<% end %>
-	<!-- RESPONSE BUBBLE BELOW 
-	<div class="clear"></div>
-	<div class="from-me">
-	  <p>Wow that's impressive. But what's even more impressive is that this bubble is really high.</p>
-	</div>
-	-->
-</section>
+<% content_for :head do %>
+  <%= render 'layouts/header' %>
+<% end %>
 
-<button class="btn btn-block btn-outlined">Search old messages</button>
+<% content_for :body do %>
+	<p class="header"><%= @sender %></p>
+	<section>
+		<% @msgs.each do |date, email| %>	
+			<div class="clear"></div>
+			<p class="datetime"><%= date %></p>
+			<div class="from-them">
+				<p><%= shorten(email[:body]) %></p>
+				<p class="view-full"> <a>view full</a> </p>
+			</div>
+		<% end %>
+		<!-- RESPONSE BUBBLE BELOW 
+		<div class="clear"></div>
+		<div class="from-me">
+		  <p>Wow that's impressive. But what's even more impressive is that this bubble is really high.</p>
+		</div>
+		-->
+	</section>
+
+	<button class="btn btn-block btn-outlined">Search old messages</button>
+<% end %>

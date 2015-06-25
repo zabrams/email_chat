@@ -1,5 +1,16 @@
 /* miscellaneous */
 
+.name-image {
+	font-size: 26px;
+	height: 40px; 
+	width: 40px;
+	line-height: 40px;
+	text-align: center;
+	color: white;
+	background-color: rgb(75,193,174);
+	border-radius: 50px;
+}
+
 .debug_dump {
   clear: both;
   float: left;
@@ -83,6 +94,13 @@ p.datetime {
 		padding:10px 20px;
 		margin-bottom: 0px;
 	}
+
+	> .view-full {
+		text-align: center;
+		padding: 0px 0px 10px 0px;
+		font-size: 12px;
+	}
+
 		
 	&:before {
 		content:"";

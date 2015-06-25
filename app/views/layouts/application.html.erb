@@ -17,16 +17,14 @@
     <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   </head>
   <body>
-    <% if logged_in? %>
-      <%= render 'layouts/header' %>
-    <% end %>
+    <%= yield :head %>
     <!-- make sure to wrap all non-bar HTML in the .content div (this is actually what scrolls) -->
     <div class="content">
       <div class="content-padded">
         <% flash.each do |message_type, message| %>
           <div class="alert alert-<%= message_type %>"><%= message %></div>
         <% end %>
-        <%= yield %>
+        <%= yield :body %>
         <%= debug(params) if Rails.env.development? %>
         <!-- <%= debug(session) if Rails.env.development? %> -->
       </div>

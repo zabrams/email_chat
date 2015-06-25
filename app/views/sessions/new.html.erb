@@ -1,6 +1,12 @@
-<br>
-<br>
-<h3>Welcome to Email Chat :) </h3>
-<br>
-<br>
-<%= link_to "Authenticate with Google!", '/auth/google_oauth2', class: "btn btn-positive btn-block" %>
+<% content_for :head do %>
+  <%= render 'layouts/header' %>
+<% end %>
+
+<% content_for :body do %>
+	<br>
+	<br>
+	<h3>Welcome to Email Chat :) </h3>
+	<br>
+	<br>
+	<%= link_to "Authenticate with Google!", '/auth/google_oauth2', class: "btn btn-positive btn-block" %>
+<% end %>
