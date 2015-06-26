@@ -56,8 +56,27 @@ class Gmail
 	end
 
 	def get_gmail_body(gmail_data)
-  		#raw text version 
-      body = gmail_data['payload']['parts'].first['body']['data']
+  		#debugger
+      #raw text version
+      payload = gmail_data['payload']
+      if parts = payload['parts']
+        #parts.each do |hash_name, value|
+        if body = parts.first['body']['data']
+        else body = parts.first['parts'].first['body']['data']
+        end
+        #end 
+      else
+        body = payload['body']['data']
+      end 
+
+
+      #  if it has parts
+      # go through each one to fine mimeType = "text/plain"
+      # if it doesnt have them
+      # use body
+
+      #body = gmail_data['payload']['parts'].first['body']['data']
+      #body = gmail_data['payload']['parts'].first['parts'].first['body']['data']
       #html version
       #body = gmail_data['payload']['parts'].last['body']['data']
   		Base64.urlsafe_decode64(body.to_s)

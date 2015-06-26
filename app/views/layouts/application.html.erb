@@ -17,7 +17,7 @@
     <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   </head>
   <body>
-    <%= yield :head %>
+    <%= render 'layouts/header' %>
     <!-- make sure to wrap all non-bar HTML in the .content div (this is actually what scrolls) -->
     <div class="content">
       <div class="content-padded">
@@ -29,5 +29,6 @@
         <!-- <%= debug(session) if Rails.env.development? %> -->
       </div>
     </div>
+    <%= render 'layouts/lowernav' %>
   </body>
 </html>

@@ -1,5 +1,9 @@
-<% content_for :head do %>
-  <%= render 'layouts/header' %>
+<!-- HEADER CONTENT -->
+<% content_for :header_left do %>
+  <%= link_to :back, class: 'icon icon-left-nav pull-left' do %><% end %>
+<% end %>
+<% content_for :header_title do %>
+  Messages
 <% end %>
 
 <% content_for :body do %>

@@ -1,5 +1,9 @@
-<% content_for :head do %>
-  <%= render 'layouts/header' %>
+<!-- HEADER CONTENT -->
+<% content_for :header_left do %>
+  <%= link_to "Log out", logout_path, method: :delete, class: 'btn pull-left' %>
+<% end %>
+<% content_for :header_title do %>
+  Inbox
 <% end %>
 
 <% content_for :body do %>
@@ -27,7 +31,6 @@
       <% end %>
   </ul>
 <% end %>
-
 
 
 

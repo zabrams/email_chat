@@ -1,9 +1,9 @@
 <header class="bar bar-nav">
 	<% if logged_in? %>
-		<%= link_to "Log out", logout_path, method: :delete, class: 'btn pull-left' %>
+		<%= yield :header_left %>
 		<a class="icon icon-compose pull-right"></a>
 	<% end %>
-    <h1 class="title">Email Chat</h1>
+    <h1 class="title"><%= yield :header_title %></h1>
 </header>
 
 
