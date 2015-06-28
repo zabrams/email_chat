@@ -28,5 +28,7 @@ module EmailChat
 
     # Precompile additional assets
     config.assets.precompile += %w( *.svg *.eot *.woff *.ttf )
+
+    #config.encoding = "utf-8"
   end
 end

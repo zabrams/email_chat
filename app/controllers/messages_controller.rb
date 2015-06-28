@@ -4,8 +4,9 @@ class MessagesController < ApplicationController
 	def index
 		connect
 		retrieve_messages
-		group_msg_by_sender
-		session[:sender_hash] = @sender_hash
+		group_msg_by_thread
+		session[:thread_hash] = @thread_hash
+		#debugger
 		#@labels = @gmail.labels
 	end
 
@@ -13,8 +14,9 @@ class MessagesController < ApplicationController
 	end
 
 	def show
-		@sender_id = params[:sender].to_i
-		@msgs = session[:sender_hash][@sender_id]
+		@thread_id = params[:sender]
+		@msgs = session[:thread_hash][@thread_id]
+		#debugger
 		@sender = get_attribute(@msgs)[:from]
 		#@sender_messages = @sender_hash[sender]
 	end
@@ -49,6 +51,32 @@ class MessagesController < ApplicationController
 			end 
 		end
 		
+		def group_msg_by_thread
+			@thread_hash = {}
+			@details.each do |msg_id, data|
+				threadId = data[:threadId]
+				if @thread_hash.blank?
+					@thread_hash.merge!( threadId => { data[:date] => data } )
+				else
+					exist = false
+					@thread_hash.each do |thread_id, email_hash|
+						@existing_id = thread_id
+						if threadId == @existing_id
+							exist = true
+						else
+							exist = false
+						end
+					end
+
+					if exist
+						@thread_hash[@existing_id].merge!( data[:date] => data )
+					else
+						@thread_hash.merge!( threadId => { data[:date] => data } )
+					end
+				end
+			end
+		end
+
 		#FIGURE OUT HOW TO GET DETAILS OF MESSAGES ONLY ONE TIME
 		#Take all messages - iterate through for unique emails - 
 		#then record the message IDs for all messages tied to that email
@@ -56,7 +84,7 @@ class MessagesController < ApplicationController
 			#take @details and sort into has with email at the key
 			@sender_hash = {}
 			@details.each do |sender, data|
-				name = data[:sender]
+				name = data[:from]
 				id = rand(10 ** 10)
 				if @sender_hash.blank?
 					@sender_hash.merge!( id => { data[:date] => data } )
@@ -64,10 +92,10 @@ class MessagesController < ApplicationController
 					exist = false
 					@sender_hash.each do |hash_id, email_hash|
 						@existing_id = hash_id
-						sender = get_attribute(email_hash)[:sender]
+						sender = get_attribute(email_hash)[:from]
 						if name == sender
 							exist = true
-						else
+						else 
 							exist = false
 						end 
 					end

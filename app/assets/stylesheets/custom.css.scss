@@ -1,15 +1,12 @@
-/* miscellaneous */
+/* Mixins */
 
-.name-image {
-	font-size: 26px;
-	height: 40px; 
-	width: 40px;
-	line-height: 40px;
-	text-align: center;
-	color: white;
-	background-color: rgb(75,193,174);
-	border-radius: 50px;
+@mixin body-text($color) {
+	color: $color;
+	padding:10px 20px;
+	margin-bottom: 0px;
 }
+
+/* miscellaneous */
 
 .debug_dump {
   clear: both;
@@ -20,6 +17,21 @@
   -webkit-box-sizing: border-box;
   box-sizing:         border-box;
 }
+
+/* Index */
+
+.name-image {
+	font-size: 18px;
+	height: 40px; 
+	width: 40px;
+	line-height: 40px;
+	text-align: center;
+	color: white;
+	background-color: rgb(75,193,174);
+	border-radius: 50px;
+}
+
+/* Show Message */
 
 p.header {
 	text-align: center;
@@ -53,9 +65,7 @@ p.datetime {
 	float: right;
 
 	> p {
-		color: white;
-		padding:10px 20px;
-		margin-bottom: 0px;
+		@include body-text(white)
 	}
 		
 	&:before {
@@ -90,9 +100,7 @@ p.datetime {
   	float: left;
 
   	> p {
-		color: black;
-		padding:10px 20px;
-		margin-bottom: 0px;
+		@include body-text(black)
 	}
 
 	> .view-full {

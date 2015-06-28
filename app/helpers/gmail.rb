@@ -31,12 +31,15 @@ class Gmail
   		data = JSON.parse(results.body)
   		sender = get_gmail_attribute(data, 'Return-Path')
       
-      { subject: get_gmail_attribute(data, 'Subject'),
+      { threadId: data['threadId'],
+      subject: get_gmail_attribute(data, 'Subject'),
     	from: get_gmail_attribute(data, 'From'),
       snippet:  data['snippet'],
     	body: get_gmail_body(data), 
-      sender: get_gmail_attribute(data, 'Return-Path'),
+      #sender: get_gmail_attribute(data, 'Return-Path'),
       date:  get_gmail_attribute(data, 'Date'),
+      to: get_gmail_attribute(data, 'To'),
+      cc: get_gmail_attribute(data, 'Cc'),
       #data: data
       }
   end
@@ -50,9 +53,11 @@ class Gmail
   end
 
   def get_gmail_attribute(gmail_data, attribute)
-  		headers = gmail_data['payload']['headers']
+      headers = gmail_data['payload']['headers']
   		array = headers.reject { |hash| hash['name'] != attribute }
-  		array.first['value']
+      unless array.blank? 
+  		  array.first['value']
+      end
 	end
 
 	def get_gmail_body(gmail_data)

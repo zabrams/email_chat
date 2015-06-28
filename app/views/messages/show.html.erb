@@ -1,13 +1,13 @@
 <!-- HEADER CONTENT -->
 <% content_for :header_left do %>
-  <%= link_to :back, class: 'icon icon-left-nav pull-left' do %><% end %>
+  <%= link_to messages_path, class: 'icon icon-left-nav pull-left' do %><% end %>
 <% end %>
 <% content_for :header_title do %>
   Messages
 <% end %>
 
 <% content_for :body do %>
-	<p class="header"><%= @sender %></p>
+	<p class="header"><%= get_name(@sender) %></p>
 	<section>
 		<% @msgs.each do |date, email| %>	
 			<div class="clear"></div>
