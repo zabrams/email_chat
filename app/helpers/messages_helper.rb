@@ -1,5 +1,5 @@
 module MessagesHelper
-	MAX_LENGTH = 200
+	MAX_LENGTH = 50
 
 	def shorten(body)
 		if body.length > MAX_LENGTH

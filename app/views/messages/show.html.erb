@@ -3,27 +3,26 @@
   <%= link_to messages_path, class: 'icon icon-left-nav pull-left' do %><% end %>
 <% end %>
 <% content_for :header_title do %>
-  Messages
+  <%= shorten(@subject) %>
 <% end %>
 
 <% content_for :body do %>
-	<p class="header"><%= get_name(@sender) %></p>
-	<section>
-		<% @msgs.each do |date, email| %>	
-			<div class="clear"></div>
-			<p class="datetime"><%= date %></p>
-			<div class="from-them">
-				<p><%= shorten(email[:body]) %></p>
-				<p class="view-full"> <a>view full</a> </p>
-			</div>
+	<ul class="msg-view">	
+		<% @msgs.each do |date, email| %>
+			<li class="msg-view-cell">
+				<div class="msg-header">
+					<p class="msg-from"> <%= get_name(email[:from]) %> </p>
+					<p class="msg-hour">| <%= date.to_datetime.strftime("%H:%M%P") %></p>
+					<p class="msg-day"><%= date.to_datetime.strftime("%b, %d") %></p>
+				</div>
+				<p class="msg-body"><%= email[:body] %></p>
+			</li>
 		<% end %>
+	</ul>
 		<!-- RESPONSE BUBBLE BELOW 
 		<div class="clear"></div>
 		<div class="from-me">
 		  <p>Wow that's impressive. But what's even more impressive is that this bubble is really high.</p>
 		</div>
 		-->
-	</section>
-
-	<button class="btn btn-block btn-outlined">Search old messages</button>
 <% end %>

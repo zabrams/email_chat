@@ -4,12 +4,10 @@ class MessagesController < ApplicationController
 	def index
 		if session[:thread_hash]
 			@thread_hash = session[:thread_hash]
-			if params[:refresh] == true 
-				refresh_gmail
-			end
 		else
 			connect
-			refresh_gmail
+			retrieve_messages
+			session[:thread_hash] = @thread_hash
 		end
 		#@labels = @gmail.labels
 	end
@@ -21,14 +19,14 @@ class MessagesController < ApplicationController
 		@thread_id = params[:sender]
 		@msgs = session[:thread_hash][@thread_id]
 		#debugger
-		@sender = get_attribute(@msgs)[:from]
+		@subject = get_attribute(@msgs)[:subject]
 		#@sender_messages = @sender_hash[sender]
 	end
 
 	def refresh_gmail
 		retrieve_messages
 		session[:thread_hash] = @thread_hash
-		redirect_to 'messages/index'
+		redirect_to :back
 	end
 
 	private
