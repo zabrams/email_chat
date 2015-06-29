@@ -13,6 +13,10 @@ module MessagesHelper
 		from.gsub(/<.*?>/, "").rstrip.gsub(/\A"|"\Z/, '')
 	end
 
+	def get_email(from)
+		/<(.*)>/.match(from).to_s.gsub(/[<>]/, "")
+	end
+
 	def get_initials(from)
 		initials = ""
 		name = get_name(from).split(" ")
@@ -22,22 +26,31 @@ module MessagesHelper
 		return initials[0,2]
 	end
 
-	def number_of_participants(thread)
-		num = 0
+	def group_participants(thread)
+		@num = 0
+		@participants = []
 		if to_field = thread[:to]
-
-			num += to_field.split(",").count
+			tos = to_field.split(",")
+			tos.each do |person|
+				to_email = get_email(person)
+				unless current_user[:email] == to_email
+					name_only = get_name(person)
+					@participants.push(name_only)
+				end
+			end
+			@num += tos.count
 		end
 
 		if cc_field = thread[:cc]
-			num += cc_field.split(",").count
+			ccs = cc_field.split(",")
+			ccs.each do |person|
+				cc_email = get_email(person)
+				unless current_user[:email] == cc_email
+					name_only = get_name(person)
+					@participants.push(name_only)
+				end
+			end
+			@num += ccs.count
 		end
-
-		unless num > 1
-			num = 'No'
-		end
-
-		return num
 	end
-	
 end

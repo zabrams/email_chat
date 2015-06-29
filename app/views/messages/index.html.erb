@@ -1,6 +1,7 @@
 <!-- HEADER CONTENT -->
 <% content_for :header_left do %>
-  <%= link_to "Log out", logout_path, method: :delete, class: 'btn pull-left' %>
+  <!-- <%= link_to "Log out", logout_path, method: :delete, class: 'btn pull-left' %> -->
+  <%= link_to "Refresh", :back, class: 'btn pull-left' %>
 <% end %>
 <% content_for :header_title do %>
   Inbox
@@ -17,11 +18,47 @@
           <span class="badge"><%= email.count %></span>
           <!-- Look at the email hash, take the first date + email pair, and pull our the get_details hash -->
           <% most_recent = email.first.last %>
-          <p class="name-image media-object pull-left">
-            <%= get_initials(most_recent[:from]) %>
-          </p>
+          <div class="name-image media-object pull-left">
+            <% group_participants(most_recent) %>
+            <% if @num > 1 %>
+              <div class="mult"> 
+                <p>
+                  <%= get_initials(most_recent[:from]) %>
+                </p>
+              </div>
+
+              <% if @num <= 3 %>
+                <% @participants.each do |name| %>
+                  <div class="mult"> 
+                    <p>
+                      <%= get_initials(name) %>
+                    </p>
+                  </div>
+                <% end %>
+              <% else %>
+                  <% @participants[0,2].each do |name| %>
+                    <div class="mult"> 
+                      <p>
+                        <%= get_initials(name) %>
+                      </p>
+                    </div>
+                  <% end %>
+                <div class="mult plus"> 
+                  <p>
+                    +<%= @num - 3 %>
+                  </p>
+                </div>
+              <% end %>
+            <% else %>
+              <div class="one"> 
+                <p>
+                  <%= get_initials(most_recent[:from]) %>
+                </p>
+              </div>
+            <% end %>
+          </div>
           <div class="media-body">
-            <p><%= most_recent[:subject] %> | <%= get_name(most_recent[:from]) %> + <%= number_of_participants(most_recent) %> others</p>
+            <p><%= most_recent[:subject] %> | <%= get_name(most_recent[:from]) %></p>
             <!-- only show the subject and body of first email - probably want to change -->
             <p><%= most_recent[:snippet] %></p>
           </div>

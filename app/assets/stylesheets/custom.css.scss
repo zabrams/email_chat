@@ -21,14 +21,50 @@
 /* Index */
 
 .name-image {
-	font-size: 18px;
 	height: 40px; 
 	width: 40px;
-	line-height: 40px;
-	text-align: center;
-	color: white;
-	background-color: rgb(75,193,174);
-	border-radius: 50px;
+
+	p {
+		color: white;
+		text-align: center;
+	}
+
+	.one {
+		height: 100%; 
+		width: 100%;
+		background-color: rgb(75,193,174);
+		border-radius: 50px;
+
+		> p {
+			font-size: 18px;
+			line-height: 40px;
+		}
+	}
+
+	.mult {
+		display: inline-block;
+		height: 17.5px; 
+		width: 17.5px;
+		background-color: rgb(75,193,174);
+		border-radius: 50px;
+
+		> p {
+			font-size: 9px;
+			line-height: 17.5px;
+		}
+
+		&.plus {
+			background-color: white;
+
+			> p {
+				color: rgb(75,193,174);
+				border: 1px solid rgb(75,193,174);
+				border-radius: 50px;
+			}
+		}
+	}
+
+
 }
 
 /* Show Message */

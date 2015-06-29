@@ -2,11 +2,15 @@ class MessagesController < ApplicationController
 	before_action :logged_in_user
 
 	def index
-		connect
-		retrieve_messages
-		group_msg_by_thread
-		session[:thread_hash] = @thread_hash
-		#debugger
+		if session[:thread_hash]
+			@thread_hash = session[:thread_hash]
+			if params[:refresh] == true 
+				refresh_gmail
+			end
+		else
+			connect
+			refresh_gmail
+		end
 		#@labels = @gmail.labels
 	end
 
@@ -21,7 +25,11 @@ class MessagesController < ApplicationController
 		#@sender_messages = @sender_hash[sender]
 	end
 
-
+	def refresh_gmail
+		retrieve_messages
+		session[:thread_hash] = @thread_hash
+		redirect_to 'messages/index'
+	end
 
 	private
 		def logged_in_user
@@ -32,23 +40,15 @@ class MessagesController < ApplicationController
 		end
 
 		def connect
-			if @gmail == nil
-				@gmail = Gmail.new(current_user.fresh_token)
-			else
-				@gmail
-			end 
+			@gmail = Gmail.new(current_user.fresh_token)
 		end
 
 		def retrieve_messages
-			if @details == nil
-				@details = { }
-				messages = @gmail.inbox['messages']
-				messages.each do |msg| 
-					@details.merge!(msg['id'] =>  @gmail.get_details(msg['id'])) 
-				end
-			else
-				@details
-			end 
+			@details = { }
+			messages = @gmail.inbox['messages']
+			messages.each do |msg| 
+				@details.merge!(msg['id'] =>  @gmail.get_details(msg['id'])) 
+			end
 		end
 		
 		def group_msg_by_thread

@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   #resources :sessions, only: :index
   get "/auth/:provider/callback" => 'sessions#create'
   resources :messages, param: :sender
+  #get ':refresh_gmail', to: 'messages#refresh_gmail', as: :refresh_gmail
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
