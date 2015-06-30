@@ -7,7 +7,10 @@
 <% end %>
 
 <% content_for :body do %>
-	<ul class="msg-view">	
+	<ul class="msg-view">
+		<% unless @additional_threads.blank? %>
+			<%= @additional_threads %>
+		<% end %>	
 		<% @msgs.each do |date, email| %>
 			<li class="msg-view-cell">
 				<div class="msg-header">

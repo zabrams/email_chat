@@ -14,6 +14,7 @@ module SessionsHelper
 
   	def log_out
   		session.delete(:user_id)
+      session.delete(:thread_hash)
   		@current_user = nil
   	end
 end

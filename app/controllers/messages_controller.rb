@@ -1,5 +1,5 @@
 class MessagesController < ApplicationController
-	before_action :logged_in_user
+	before_action :logged_in_user, :connect
 
 	def index
 		if session[:thread_hash]
@@ -7,6 +7,7 @@ class MessagesController < ApplicationController
 		else
 			connect
 			retrieve_messages
+			group_msg_by_thread
 			session[:thread_hash] = @thread_hash
 		end
 		#@labels = @gmail.labels
@@ -16,18 +17,18 @@ class MessagesController < ApplicationController
 	end
 
 	def show
-		@thread_id = params[:sender]
-		@msgs = session[:thread_hash][@thread_id]
-		#debugger
+		thread_id = params[:sender]
+		@msgs = session[:thread_hash][thread_id]
 		@subject = get_attribute(@msgs)[:subject]
-		#@sender_messages = @sender_hash[sender]
+		@additional_threads = @gmail.get_threads(thread_id)
 	end
 
-	def refresh_gmail
-		retrieve_messages
-		session[:thread_hash] = @thread_hash
-		redirect_to :back
-	end
+	#def refresh_gmail
+	#	retrieve_messages
+	#	group_msg_by_thread
+	#	session[:thread_hash] = @thread_hash
+	#	redirect_to :back
+	#end
 
 	private
 		def logged_in_user
