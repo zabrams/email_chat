@@ -86,16 +86,34 @@ class Gmail
   		#debugger
       #first for raw text version, last for html
       payload = gmail_data['payload']
+      body = nil
+      exist = false
+
       if parts = payload['parts']
-        #parts.each do |hash_name, value|
-        if body = parts.last['body']['data']
-          match(decode(body))
-        else body = parts.first['parts'].last['body']['data']
-          match(decode(body))
+        until body
+          parts.each do |part|
+            part.each do |key, value|
+              if value == 'text/html'
+                body = part['body']['value']
+                break
+              end
+            end 
+          end
+          if body = nil
+              parts = parts.first['parts']
+          else
+            break
+          end
         end
-        #end 
-      elsif 
-        body = payload['body']['data']
+      #  if body = parts.last['body']['data']
+      #    match(decode(body))
+      #  elsif body = parts.first['parts'].last['body']['data']
+      #    match(decode(body))
+      #  else body = parts.first['parts'].first['parts'].last['body']['data']
+      #    match(decode(body))
+      #  end
+      #  #end 
+      else body = payload['body']['data']
         decode(body)
       end 
 
