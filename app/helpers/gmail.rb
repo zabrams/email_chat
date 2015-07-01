@@ -84,16 +84,19 @@ class Gmail
 
 	def get_gmail_body(gmail_data)
   		#debugger
-      #raw text version
+      #first for raw text version, last for html
       payload = gmail_data['payload']
       if parts = payload['parts']
         #parts.each do |hash_name, value|
-        if body = parts.first['body']['data']
-        else body = parts.first['parts'].first['body']['data']
+        if body = parts.last['body']['data']
+          match(decode(body))
+        else body = parts.first['parts'].last['body']['data']
+          match(decode(body))
         end
         #end 
-      else
+      elsif 
         body = payload['body']['data']
+        decode(body)
       end 
 
 
@@ -106,9 +109,18 @@ class Gmail
       #body = gmail_data['payload']['parts'].first['parts'].first['body']['data']
       #html version
       #body = gmail_data['payload']['parts'].last['body']['data']
-  		Base64.urlsafe_decode64(body.to_s)
 	end
 
+  def decode(body)
+    Base64.urlsafe_decode64(body.to_s)
+  end
 
-	
+  def match(body)
+    if matched_body = /(.*?)<div class=\"gmail_extra\">/.match(body)
+      matched_body[1]
+    else
+      body
+    end
+  end
+
 end

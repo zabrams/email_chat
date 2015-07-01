@@ -9,7 +9,16 @@
 <% content_for :body do %>
 	<ul class="msg-view">
 		<% unless @additional_threads.blank? %>
-			<%= @additional_threads %>
+			<% @additional_threads.each do |id, email| %>
+				<li class="msg-view-cell">
+					<div class="msg-header">
+						<p class="msg-from"> <%= get_name(email[:from]) %> </p>
+						<p class="msg-hour">| <%= email[:date].to_datetime.strftime("%H:%M%P") %></p>
+						<p class="msg-day"><%= email[:date].to_datetime.strftime("%b, %d") %></p>
+					</div>
+					<p class="msg-body"><%= raw email[:body] %></p>
+				</li>
+			<% end %>
 		<% end %>	
 		<% @msgs.each do |date, email| %>
 			<li class="msg-view-cell">
@@ -18,7 +27,7 @@
 					<p class="msg-hour">| <%= date.to_datetime.strftime("%H:%M%P") %></p>
 					<p class="msg-day"><%= date.to_datetime.strftime("%b, %d") %></p>
 				</div>
-				<p class="msg-body"><%= email[:body] %></p>
+				<p class="msg-body"><%= raw email[:body] %></p>
 			</li>
 		<% end %>
 	</ul>
