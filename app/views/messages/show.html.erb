@@ -16,7 +16,7 @@
 						<p class="msg-hour">| <%= email[:date].to_datetime.strftime("%H:%M%P") %></p>
 						<p class="msg-day"><%= email[:date].to_datetime.strftime("%b, %d") %></p>
 					</div>
-					<p class="msg-body"><%= raw email[:body] %></p>
+					<%= raw email[:body] %>
 				</li>
 			<% end %>
 		<% end %>	
@@ -27,7 +27,7 @@
 					<p class="msg-hour">| <%= date.to_datetime.strftime("%H:%M%P") %></p>
 					<p class="msg-day"><%= date.to_datetime.strftime("%b, %d") %></p>
 				</div>
-				<p class="msg-body"><%= raw email[:body] %></p>
+				<%= raw email[:body] %>
 			</li>
 		<% end %>
 	</ul>

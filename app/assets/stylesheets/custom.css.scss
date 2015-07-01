@@ -93,9 +93,11 @@
 			}
 		}
 
-		.msg-body {
-			padding: 5px;
-		}
+		> div {
+				padding: 5px 5px 40px 5px;
+				color: #777;
+				font-size: 14px;
+			}
 	}
 }
 
