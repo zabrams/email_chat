@@ -83,7 +83,7 @@ class Gmail
 	end
 
 	def get_gmail_body(gmail_data)
-  		#debugger
+      #debugger
       #first for raw text version, last for html
       payload = gmail_data['payload']
       @body = nil
@@ -92,6 +92,7 @@ class Gmail
       if parts = payload['parts']
         while @body == nil && @body_plain == nil
           find_body(parts)
+          #if @body then break end
           parts = parts.first['parts']
         end
         if @body
