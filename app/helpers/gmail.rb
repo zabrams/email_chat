@@ -86,24 +86,18 @@ class Gmail
   		#debugger
       #first for raw text version, last for html
       payload = gmail_data['payload']
-      body = nil
-      exist = false
+      @body = nil
+      @body_plain = nil
 
       if parts = payload['parts']
-        until body
-          parts.each do |part|
-            part.each do |key, value|
-              if value == 'text/html'
-                body = part['body']['value']
-                break
-              end
-            end 
-          end
-          if body = nil
-              parts = parts.first['parts']
-          else
-            break
-          end
+        while @body == nil && @body_plain == nil
+          find_body(parts)
+          parts = parts.first['parts']
+        end
+        if @body
+          match(decode(@body))
+        elsif @body_plain && @body == nil
+          decode(@body_plain)
         end
       #  if body = parts.last['body']['data']
       #    match(decode(body))
@@ -116,7 +110,6 @@ class Gmail
       else body = payload['body']['data']
         decode(body)
       end 
-
 
       #  if it has parts
       # go through each one to fine mimeType = "text/plain"
@@ -138,6 +131,18 @@ class Gmail
       matched_body[1]
     else
       body
+    end
+  end
+
+  def find_body(parts)
+    parts.each do |part|
+      part.each do |key, value|
+        if value == 'text/html'
+          @body = part['body']['data']
+        elsif value == 'text/plain'
+          @body_plain = part['body']['data']
+        end
+      end
     end
   end
 

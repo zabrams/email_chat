@@ -3,7 +3,7 @@ module MessagesHelper
 
 	def shorten(body)
 		if body.length > SUBJECT_MAX_LENGTH
-			truncated_body = body[0,MAX_LENGTH]
+			truncated_body = body[0,SUBJECT_MAX_LENGTH]
 		else
 			body
 		end
