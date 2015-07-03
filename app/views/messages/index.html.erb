@@ -3,6 +3,7 @@
   <%= link_to "Log out", logout_path, method: :delete, class: 'btn pull-left' %>
   <!-- <%= link_to "Refresh", { controller: :messages, method: :refresh_gmail, :refresh => true }, class: 'btn pull-left' %> -->
 <% end %>
+
 <% content_for :header_title do %>
   Inbox
 <% end %>
@@ -33,6 +34,10 @@
       <% end %>
   </ul>
 
+<% end %>
+
+<% content_for :lower_nav do %>
+  <%= render 'layouts/lowernav_tabs' %>
 <% end %>
 
 
