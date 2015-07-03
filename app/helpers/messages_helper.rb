@@ -30,27 +30,27 @@ module MessagesHelper
 		@num = 0
 		@participants = []
 		if to_field = thread[:to]
-			tos = to_field.split(",")
-			tos.each do |person|
-				to_email = get_email(person)
-				unless current_user[:email] == to_email
-					name_only = get_name(person)
-					@participants.push(name_only)
-				end
-			end
-			@num += tos.count
+			build_participant_list(to_field)
 		end
 
 		if cc_field = thread[:cc]
-			ccs = cc_field.split(",")
-			ccs.each do |person|
-				cc_email = get_email(person)
-				unless current_user[:email] == cc_email
-					name_only = get_name(person)
-					@participants.push(name_only)
-				end
-			end
-			@num += ccs.count
+			build_participant_list(cc_field)
 		end
 	end
+
+	def build_participant_list(field)
+		members = field.split(",")
+		members.each do |person|
+			to_email = get_email(person)
+			unless current_user[:email] == to_email
+				name_only = get_name(person)
+				@participants.push(name_only)
+			end
+		end
+		@num += members.count
+	end
 end
+
+
+
+

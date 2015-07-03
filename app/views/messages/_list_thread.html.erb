@@ -1,0 +1,9 @@
+<!-- NEED TO FORMAT THREADS BY DATE TO TEMPLATIZE VIEW -->
+<li class="msg-view-cell">
+	<div class="msg-header">
+		<p class="msg-from"> <%= get_name(email[:from]) %> </p>
+		<p class="msg-hour">| <%= date.to_datetime.strftime("%H:%M%P") %></p>
+		<p class="msg-day"><%= email[:date].to_datetime.strftime("%b, %d") %></p>
+	</div>
+	<%= raw email[:body] %>
+</li>

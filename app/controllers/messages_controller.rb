@@ -10,7 +10,6 @@ class MessagesController < ApplicationController
 			group_msg_by_thread
 			session[:thread_hash] = @thread_hash
 		end
-		#@labels = @gmail.labels
 	end
 
 	def inbox
@@ -39,7 +38,9 @@ class MessagesController < ApplicationController
 		end
 
 		def connect
-			@gmail = Gmail.new(current_user.fresh_token)
+			unless @gmail
+				@gmail = Gmail.new(current_user.fresh_token)
+			end
 		end
 
 		def retrieve_messages
@@ -76,41 +77,39 @@ class MessagesController < ApplicationController
 			end
 		end
 
-		#FIGURE OUT HOW TO GET DETAILS OF MESSAGES ONLY ONE TIME
-		#Take all messages - iterate through for unique emails - 
-		#then record the message IDs for all messages tied to that email
-		def group_msg_by_sender 
-			#take @details and sort into has with email at the key
-			@sender_hash = {}
-			@details.each do |sender, data|
-				name = data[:from]
-				id = rand(10 ** 10)
-				if @sender_hash.blank?
-					@sender_hash.merge!( id => { data[:date] => data } )
-				else
-					exist = false
-					@sender_hash.each do |hash_id, email_hash|
-						@existing_id = hash_id
-						sender = get_attribute(email_hash)[:from]
-						if name == sender
-							exist = true
-						else 
-							exist = false
-						end 
-					end
+		#THIS IS UNUSED 
+		#def group_msg_by_sender 
+		#	@sender_hash = {}
+		#	@details.each do |sender, data|
+		#		name = data[:from]
+		#		id = rand(10 ** 10)
+		#		if @sender_hash.blank?
+		#			@sender_hash.merge!( id => { data[:date] => data } )
+		#		else
+		#			exist = false
+		#			@sender_hash.each do |hash_id, email_hash|
+		#				@existing_id = hash_id
+		#				sender = get_attribute(email_hash)[:from]
+		#				if name == sender
+		#					exist = true
+		#				else 
+		#					exist = false
+		#				end 
+		#			end
 
-					if exist
-						@sender_hash[@existing_id].merge!( data[:date] => data )
-					else
-						@sender_hash.merge!( id => { data[:date] => data } )
-					end
-				end
-			end
-		end
+		#			if exist
+		#				@sender_hash[@existing_id].merge!( data[:date] => data )
+		#			else
+		#				@sender_hash.merge!( id => { data[:date] => data } )
+		#			end
+		#		end
+		#	end
+		#end
 
 		def get_attribute(hash)
 			#takes the data hash and returns first k, v 
-			#as an array. Then we take the email_hash
+			#as an array. The first because its the most 
+			# recent msg. Then we take the email_hash
 			#and use that to ask for a specific item. 
 			hash.first.last
 		end

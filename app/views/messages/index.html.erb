@@ -12,61 +12,27 @@
   <ul class="table-view">
       <% @thread_hash.each do |thread_id, email| %>
       <li class="table-view-cell media">
-        <!-- passing email addresses here is causing issues %> -->
+        
         <%= link_to message_path(:sender => thread_id), :class => "navigate-right" do %>
-        <!-- <a class="navigate-right"> -->
-          <span class="badge"><%= email.count %></span>
-          <!-- Look at the email hash, take the first date + email pair, and pull our the get_details hash -->
-          <% most_recent = email.first.last %>
-          <div class="name-image media-object pull-left">
-            <% group_participants(most_recent) %>
-            <% if @num > 1 %>
-              <div class="mult"> 
-                <p>
-                  <%= get_initials(most_recent[:from]) %>
-                </p>
-              </div>
-
-              <% if @num <= 3 %>
-                <% @participants.each do |name| %>
-                  <div class="mult"> 
-                    <p>
-                      <%= get_initials(name) %>
-                    </p>
-                  </div>
-                <% end %>
-              <% else %>
-                  <% @participants[0,2].each do |name| %>
-                    <div class="mult"> 
-                      <p>
-                        <%= get_initials(name) %>
-                      </p>
-                    </div>
-                  <% end %>
-                <div class="mult plus"> 
-                  <p>
-                    +<%= @num - 3 %>
-                  </p>
-                </div>
-              <% end %>
-            <% else %>
-              <div class="one"> 
-                <p>
-                  <%= get_initials(most_recent[:from]) %>
-                </p>
-              </div>
-            <% end %>
-          </div>
+        
+        <span class="badge"><%= email.count %></span>
+        
+        <% most_recent = email.first.last %>
+          
+          <%= render 'messages/participant_circle', :most_recent => most_recent %>
+          
           <div class="media-body">
             <p><%= most_recent[:subject] %> | <%= get_name(most_recent[:from]) %></p>
-            <!-- only show the subject and body of first email - probably want to change -->
             <p><%= most_recent[:snippet] %></p>
           </div>
-        <!-- </a> -->
+        
         <% end %>
+      
       </li>
+      
       <% end %>
   </ul>
+
 <% end %>
 
 

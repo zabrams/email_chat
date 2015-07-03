@@ -73,10 +73,14 @@
 	padding: 5px 5px 50px 5px; 
 
 	.msg-view-cell {
+		color: #777;
+		font-size: 14px;
+		padding: 5px 5px 40px 5px;
 		list-style-type: none;
 
 		.msg-header {
-			padding: 2px ;
+			padding: 2px;
+			margin-bottom: 5px;
 			border-bottom: 1px solid #777;
 
 			p {
@@ -94,7 +98,6 @@
 		}
 
 		> div {
-				padding: 5px 5px 40px 5px;
 				color: #777;
 				font-size: 14px;
 			}

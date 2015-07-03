@@ -51,8 +51,9 @@ class Gmail
 
       data.each do |message|
         unless message['labelIds'].include?("INBOX")
-          id = message['id']
-          thread_messages.merge!( id => get_attribute_hash(message) )
+          hash = get_attribute_hash(message)
+          date = hash[:date]
+          thread_messages.merge!( date => hash )
         end
       end 
 
@@ -84,22 +85,26 @@ class Gmail
 
 	def get_gmail_body(gmail_data)
       #debugger
-      #first for raw text version, last for html
       payload = gmail_data['payload']
       @body = nil
       @body_plain = nil
 
+      #focusing on .first means we pull html version of email
       if parts = payload['parts']
         while @body == nil && @body_plain == nil
           find_body(parts)
-          #if @body then break end
           parts = parts.first['parts']
         end
         if @body
           match(decode(@body))
         elsif @body_plain && @body == nil
           decode(@body_plain)
-        end
+        end 
+      else 
+        @body = payload['body']['data']
+        decode(@body)
+      end 
+
       #  if body = parts.last['body']['data']
       #    match(decode(body))
       #  elsif body = parts.first['parts'].last['body']['data']
@@ -107,15 +112,7 @@ class Gmail
       #  else body = parts.first['parts'].first['parts'].last['body']['data']
       #    match(decode(body))
       #  end
-      #  #end 
-      else body = payload['body']['data']
-        decode(body)
-      end 
-
-      #  if it has parts
-      # go through each one to fine mimeType = "text/plain"
-      # if it doesnt have them
-      # use body
+      #  #end
 
       #body = gmail_data['payload']['parts'].first['body']['data']
       #body = gmail_data['payload']['parts'].first['parts'].first['body']['data']
@@ -127,6 +124,7 @@ class Gmail
     Base64.urlsafe_decode64(body.to_s)
   end
 
+  #take text before the 'gmail extra' tag
   def match(body)
     if matched_body = /(.*?)<div class=\"gmail_extra\">/.match(body)
       matched_body[1]
@@ -135,16 +133,19 @@ class Gmail
     end
   end
 
+  #Only take the first instance - 
+  #might cause issues with multipart emails...
   def find_body(parts)
     parts.each do |part|
       part.each do |key, value|
-        if value == 'text/html'
+        if value == 'text/html' && @body == nil
           @body = part['body']['data']
-        elsif value == 'text/plain'
+        elsif value == 'text/plain' && @body_plain == nil
           @body_plain = part['body']['data']
         end
       end
     end
   end
+
 
 end
