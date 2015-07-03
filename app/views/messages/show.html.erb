@@ -7,13 +7,8 @@
 <% end %>
 
 <% content_for :body do %>
-	<ul class="msg-view">
-		<% unless @additional_threads.blank? %>
-			<% @additional_threads.each do |date, email| %>
-				<%= render 'messages/list_thread', :email => email, :date => date %>
-			<% end %>
-		<% end %>	
-		<% @msgs.each do |date, email| %>
+	<ul class="msg-view">	
+		<% @ordered_threads.each do |date, email| %>
 			<%= render 'messages/list_thread', :email => email, :date => date %>
 		<% end %>
 	</ul>

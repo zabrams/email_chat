@@ -17,9 +17,19 @@ class MessagesController < ApplicationController
 
 	def show
 		thread_id = params[:sender]
-		@msgs = session[:thread_hash][thread_id]
-		@subject = get_attribute(@msgs)[:subject]
-		@additional_threads = @gmail.get_threads(thread_id)
+		
+		msgs = session[:thread_hash][thread_id]
+		additional_threads = @gmail.get_threads(thread_id)
+		if additional_threads
+			all_threads = msgs.merge(additional_threads)
+			@ordered_threads = all_threads.sort_by { |k, v| k.to_datetime }
+		else
+			@ordered_threads = msgs
+		end
+
+		@subject = get_attribute(msgs)[:subject]
+		
+		
 	end
 
 	#def refresh_gmail
