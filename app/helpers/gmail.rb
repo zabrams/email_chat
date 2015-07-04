@@ -126,7 +126,7 @@ class Gmail
 
   #take text before the 'gmail extra' tag
   def match(body)
-    if matched_body = /(.*?)<div class=\"gmail_extra\">/.match(body)
+    if matched_body = /(.*?)<div class=\"gmail_extra\">/m.match(body)
       matched_body[1]
     else
       body
