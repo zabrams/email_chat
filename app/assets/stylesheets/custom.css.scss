@@ -28,6 +28,36 @@
   box-sizing:         border-box;
 }
 
+/* Response Nav */
+
+.bar.bar-tab.response {
+	.send-msg {
+		padding: 5px 8px;
+
+		input {
+			float: left;
+			width: 90%;
+			@include standard-text;
+			height: 40px;
+			margin-bottom: 0px;
+			padding: 5px;
+		}
+
+		button {
+			float: right;
+			@include standard-text;
+			padding: 5px 10px;
+			text-align: center;
+			white-space: nowrap;
+			vertical-align: top;
+			cursor: pointer;
+			background-color: #fff;
+			border: 1px solid #ccc;
+			border-radius: 3px;
+		}
+	}
+}
+
 /* Index */
 
 .name-image {
