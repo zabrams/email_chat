@@ -1,6 +1,6 @@
 <!-- HEADER CONTENT -->
 <% content_for :header_left do %>
-  <%= link_to "Log out", logout_path, method: :delete, class: 'btn pull-left' %>
+  <%= link_to "Log out", logout_path, method: :delete, class: 'btn pull-left', :"data-transition" => "slide-out" %>
   <!-- <%= link_to "Refresh", { controller: :messages, method: :refresh_gmail, :refresh => true }, class: 'btn pull-left' %> -->
 <% end %>
 
@@ -14,7 +14,7 @@
       <% @thread_hash.each do |thread_id, email| %>
       <li class="table-view-cell media">
         
-        <%= link_to message_path(:sender => thread_id), :class => "navigate-right" do %>
+        <%= link_to message_path(:sender => thread_id), :class => "navigate-right", :"data-transition" => "slide-in" do %>
         
         <span class="badge"><%= email.count %></span>
         

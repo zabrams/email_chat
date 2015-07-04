@@ -1,6 +1,6 @@
 <!-- HEADER CONTENT -->
 <% content_for :header_left do %>
-  <%= link_to messages_path, class: 'icon icon-left-nav pull-left' do %><% end %>
+  <%= link_to messages_path, class: 'icon icon-left-nav pull-left', :"data-transition" => "slide-out" do %><% end %>
 <% end %>
 <% content_for :header_title do %>
   <%= shorten(@subject) %>
