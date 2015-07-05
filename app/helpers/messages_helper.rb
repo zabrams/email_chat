@@ -49,6 +49,33 @@ module MessagesHelper
 		end
 		@num += members.count
 	end
+
+	def group_threads_by_participants(threads)
+		#go through each thread and order the participants
+		#then check is the array of participants are equal
+		#if they are, add the thread, if not create new one
+
+		@participant_threads = {}
+		threads.each do |id, thread|
+			group_participants(thread)
+			sorted_names = @participants.sort
+			if @participant_threads.blank?
+				@participant_threads.merge!( sorted_names => thread )
+			else
+				exist = false
+				@participant_threads.each do |existing_participants, existing_thread|
+					if sorted_names == existing_participants
+						exist = true
+					end 
+				end 
+				if exist
+					@participant_threads[sorted_names].merge!( thread )
+				else
+					@participant_threads.merge!( sorted_names => thread )
+				end
+			end
+		end
+	end
 end
 
 
