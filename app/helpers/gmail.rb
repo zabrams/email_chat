@@ -24,7 +24,7 @@ class Gmail
   end
 
   def get_details(id)
-  		results = @client.execute!(
+      results = @client.execute!(
    			:api_method => @service.users.messages.get,
    			:parameters => {'userId' => 'me', 'id' => id, 'format' => 'full'},
     		:headers => {'Content-Type' => 'application/json'})
@@ -77,7 +77,7 @@ class Gmail
 
   def get_gmail_attribute(gmail_data, attribute)
       headers = gmail_data['payload']['headers']
-  		array = headers.reject { |hash| hash['name'] != attribute }
+  		array = headers.reject { |hash| hash['name'].capitalize != attribute.capitalize }
       unless array.blank? 
   		  array.first['value']
       end
