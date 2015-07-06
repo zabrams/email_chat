@@ -107,12 +107,16 @@
 
 /* Show Message */
 
+.card {
+	margin: 10px 10px 60px 10px !important;
+}
+
 .msg-view {
-	padding: 5px 5px 50px 5px; 
+	padding: 5px 5px 10px 5px; 
 
 	.msg-view-cell {
 		@include standard-text;
-		padding: 5px 5px 40px 5px;
+		padding: 5px;
 		list-style-type: none;
 
 		.msg-header {

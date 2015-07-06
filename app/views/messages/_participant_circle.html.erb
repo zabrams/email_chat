@@ -1,38 +1,30 @@
 <div class="name-image media-object pull-left">
   <% group_participants(most_recent) %>
-  <% if @num > 1 %>
-    <div class="mult"> 
-      <p>
-        <%= get_initials(most_recent[:from]) %>
-      </p>
-    </div>
-
-    <% if @num <= 3 %>
-      <% @participants.each do |name| %>
-        <div class="mult"> 
-          <p>
-            <%= get_initials(name) %>
-          </p>
-        </div>
-      <% end %>
-    <% else %>
-        <% @participants[0,2].each do |name| %>
-          <div class="mult"> 
-            <p>
-              <%= get_initials(name) %>
-            </p>
-          </div>
-        <% end %>
-      <div class="mult plus"> 
+  <% if @num > 1 && @num <= 3 %>
+    <% @participants.each do |name| %>
+      <div class="mult"> 
         <p>
-          +<%= @num - 3 %>
+          <%= get_initials(name) %>
         </p>
       </div>
     <% end %>
+  <% elsif @num > 3  %>
+    <% @participants[0,3].each do |name| %>
+      <div class="mult"> 
+        <p>
+          <%= get_initials(name) %>
+        </p>
+      </div>
+    <% end %>
+    <div class="mult plus"> 
+      <p>
+        +<%= @num - 3 %>
+      </p>
+    </div>
   <% else %>
     <div class="one"> 
       <p>
-        <%= get_initials(most_recent[:from]) %>
+        <%= get_initials(@participants.first) %>
       </p>
     </div>
   <% end %>

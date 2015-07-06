@@ -21,8 +21,6 @@ class MessagesController < ApplicationController
 		msgs = session[:thread_hash][thread_id]
 		additional_threads = @gmail.get_threads(thread_id)
 
-		
-
 		if additional_threads
 			all_threads = msgs.merge(additional_threads)
 			@ordered_threads = all_threads.sort_by { |k, v| k.to_datetime }
@@ -30,8 +28,7 @@ class MessagesController < ApplicationController
 			@ordered_threads = msgs
 		end
 
-		group_threads_by_participants(@ordered_threads)
-		
+		group_threads_by_participants(@ordered_threads)		
 		@subject = get_attribute(msgs)[:subject]
 		
 	end

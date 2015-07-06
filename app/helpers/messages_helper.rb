@@ -29,6 +29,7 @@ module MessagesHelper
 	def group_participants(thread)
 		@num = 0
 		@participants = []
+		@participants.push(get_name(thread[:from]))
 		if to_field = thread[:to]
 			build_participant_list(to_field)
 		end
@@ -55,12 +56,15 @@ module MessagesHelper
 		#then check is the array of participants are equal
 		#if they are, add the thread, if not create new one
 
+		#TODO ADD FROM PERSON TO PARTICIPANT LIST AND CLEAN UP
+		#_PARTICIPANT_CIRCLE CODE
+
 		@participant_threads = {}
-		threads.each do |id, thread|
+		threads.each do |date, thread|
 			group_participants(thread)
 			sorted_names = @participants.sort
 			if @participant_threads.blank?
-				@participant_threads.merge!( sorted_names => thread )
+				@participant_threads.merge!( sorted_names => { date => thread } )
 			else
 				exist = false
 				@participant_threads.each do |existing_participants, existing_thread|
@@ -69,9 +73,9 @@ module MessagesHelper
 					end 
 				end 
 				if exist
-					@participant_threads[sorted_names].merge!( thread )
+					@participant_threads[sorted_names].merge!( { date => thread } )
 				else
-					@participant_threads.merge!( sorted_names => thread )
+					@participant_threads.merge!( sorted_names => { date => thread } )
 				end
 			end
 		end
