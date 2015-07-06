@@ -40,13 +40,13 @@ module MessagesHelper
 	end
 
 	def build_participant_list(field)
-		members = field.split(",")
+		members = field.split(",").map(&:strip)
 		members.each do |person|
-			to_email = get_email(person)
-			unless current_user[:email] == to_email
-				name_only = get_name(person)
-				@participants.push(name_only)
-			end
+			#to_email = get_email(person)
+			#unless current_user[:email] == to_email 
+			name_only = get_name(person)
+			@participants.push(name_only)
+			#end
 		end
 		@num += members.count
 	end
@@ -58,7 +58,6 @@ module MessagesHelper
 
 		#TODO ADD FROM PERSON TO PARTICIPANT LIST AND CLEAN UP
 		#_PARTICIPANT_CIRCLE CODE
-
 		@participant_threads = {}
 		threads.each do |date, thread|
 			group_participants(thread)

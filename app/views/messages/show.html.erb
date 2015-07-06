@@ -7,16 +7,16 @@
 <% end %>
 
 <% content_for :body do %>
-	<% i = 1 %>
-	<% @participant_threads.each do |participants, thread| %>
-		<% if i == 1 %>
-			<% active = "active" %>
-		<% else %>
-			<% active = "" %>
-		<% end %>
-		<% if @participant_threads.count > 1 %>
-			<div class="segmented-control">
-			  <a class="control-item <%= active %>" href="#thread<%= i %>mobile">
+	<% if @participant_threads.count > 1 %>
+	<div class="segmented-control">
+		<% i = 1 %>
+		<% @participant_threads.each do |participants, thread| %>
+			<% if i == 1 %>
+				<% active = "active" %>
+			<% else %>
+				<% active = "" %>
+			<% end %>
+			 <a class="control-item <%= active %>" href="#thread<%= i %>mobile">
 			    <% members = "" %>
 			    <% if participants.count > 1 %>
 			    	<% last = participants.pop %>
@@ -25,24 +25,33 @@
 				    <% end %>
 			    	<% members += get_initials(last) %>
 			    <% else %>
-			    	<% members = get_initials(participants).to_s %>
+			    	<% members = get_initials(participants.first).to_s %>
 			    <% end %>
 			    <%= members %>
 			  </a>
-			</div>
-		<% else %>
-			<div class="card">
-			  <span id="#thread<%= i %>mobile" class="control-content <%= active %>">
+		  	<% i += 1 %>
+		<% end %>
+	</div>
+	<% end %>
+
+	<div class="card">
+		<% i = 1 %>
+		<% @participant_threads.each do |participants, thread| %>
+			<% if i == 1 %>
+				<% active = "active" %>
+			<% else %>
+				<% active = "" %>
+			<% end %>
+			<span id="thread<%= i %>mobile" class="control-content <%= active %>">
 			  	<ul class="msg-view">	
 					<% thread.each do |date, email| %>
 						<%= render 'messages/list_thread', :email => email, :date => date %>
 					<% end %>
 				</ul>
-			  </span>
-			</div>
+			</span>
 			<% i += 1 %>
 		<% end %>
-	<% end %>
+	</div>	
 	
 		<!-- RESPONSE BUBBLE BELOW 
 		<div class="clear"></div>
