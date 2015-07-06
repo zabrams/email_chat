@@ -33,12 +33,10 @@ class MessagesController < ApplicationController
 		
 	end
 
-	#def refresh_gmail
-	#	retrieve_messages
-	#	group_msg_by_thread
-	#	session[:thread_hash] = @thread_hash
-	#	redirect_to :back
-	#end
+	def refresh_gmail
+		session[:thread_hash] = nil
+		redirect_to messages_url
+	end
 
 	private
 		def logged_in_user
