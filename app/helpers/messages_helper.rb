@@ -88,6 +88,24 @@ module MessagesHelper
 			end
 		end
 	end
+
+
+	def sort_read_and_unread(thread_hash)
+		unread = false
+		@read_and_unread = { "unread" => {}, "read" => {} }
+		thread_hash.each do |names, date_thread|
+			date_thread.each do |date, thread|
+				if thread[:labels].include?("UNREAD")
+					unread = true
+				end
+			end
+			if unread
+				@read_and_unread['unread'].merge!( names => date_thread )
+			else
+				@read_and_unread['read'].merge!( names => date_thread )
+			end
+		end
+	end
 end
 
 

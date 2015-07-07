@@ -139,5 +139,4 @@ class Gmail
     end
   end
 
-
 end
