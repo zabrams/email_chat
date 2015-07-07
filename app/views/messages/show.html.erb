@@ -7,43 +7,69 @@
 <% end %>
 
 <% content_for :body do %>
-	<% if @participant_threads.count > 1 %>
-	<div class="segmented-control">
-		<% i = 1 %>
-		<% @participant_threads.each do |participants, thread| %>
-			<% if i == 1 %>
-				<% active = "active" %>
-			<% else %>
-				<% active = "" %>
-			<% end %>
-			 <a class="control-item <%= active %>" href="#thread<%= i %>mobile">
-			    <% members = "" %>
-			    <% if participants.count > 1 %>
-			    	<% last = participants.pop %>
-				    <% participants.each do |person| %>
-				    	<% members += get_initials(person).to_s+", " %>
+	<% i = 1 %>
+	<% if @read_and_unread['unread'] && @read_and_unread['unread'].count > 1 %>
+		<div class="segmented-control">
+			<% @read_and_unread['unread'].each do |participants, thread| %>
+				<% if i == 1 %>
+					<% active = "active" %>
+				<% else %>
+					<% active = "" %>
+				<% end %>
+				 <a class="control-item <%= active %>" href="#thread<%= i %>mobile">
+				    <% members = "" %>
+				    <% if participants.count > 1 %>
+				    	<% last = participants.pop %>
+					    <% participants.each do |person| %>
+					    	<% members += get_initials(person).to_s+", " %>
+					    <% end %>
+				    	<% members += get_initials(last) %>
+				    <% else %>
+				    	<% members = get_initials(participants.first).to_s %>
 				    <% end %>
-			    	<% members += get_initials(last) %>
-			    <% else %>
-			    	<% members = get_initials(participants.first).to_s %>
-			    <% end %>
-			    <%= members %>
-			  </a>
-		  	<% i += 1 %>
-		<% end %>
-	</div>
+				    <%= members %>
+				  </a>
+			  	<% i += 1 %>
+			<% end %>
+		</div>
+	<% end %>
+	<% unless @read_and_unread['read'].blank? %>
+		<% i += 1 %>
+		<div class="view-history"><a href="#pastThreads">Past Threads</a></div>
+		<div id="pastThreads" class="modal">
+			<header class="bar bar-nav">
+		    	<a class="icon icon-close pull-right" href="#pastThreads"></a>
+		    	<h1 class="title">Past Threads</h1>
+			</header> 
+		    <div class="content">
+		    	<% @read_and_unread['read'].each do |participants, thread| %>
+			    	<a class="control-item content-padded" href="#thread<%= i %>mobile">
+					    <% members = "" %>
+					    <% if participants.count > 1 %>
+					    	<% last = participants.pop %>
+						    <% participants.each do |person| %>
+						    	<% members += get_initials(person).to_s+", " %>
+						    <% end %>
+					    	<% members += get_initials(last) %>
+					    <% else %>
+					    	<% members = get_initials(participants.first).to_s %>
+					    <% end %>
+					    <%= members %>
+					</a>
+				<% end %>
+		    </div>
+		</div>
 	<% end %>
 
 	<div>
 		<% i = 1 %>
-		<% @participant_threads.each do |participants, thread| %>
+		<% @read_and_unread['unread'].each do |participants, thread| %>
 			<% if i == 1 %>
 				<% active = "active" %>
 			<% else %>
 				<% active = "" %>
 			<% end %>
 			<span id="thread<%= i %>mobile" class="control-content <%= active %>">
-			  	<div class="view-history"><a href="#">A button</a></div>
 			  	<ul class="msg-view">
 			  		<% count = 1 %>	
 					<% thread.each do |date, email| %>
@@ -64,7 +90,6 @@
 		  <p>Wow that's impressive. But what's even more impressive is that this bubble is really high.</p>
 		</div>
 		-->
-	<% debugger %>
 <% end %>
 
 <% content_for :lower_nav do %>

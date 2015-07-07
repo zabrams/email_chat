@@ -28,9 +28,9 @@ class MessagesController < ApplicationController
 			@ordered_threads = msgs
 		end
 
-		group_threads_by_participants(@ordered_threads)		
+		group_threads_by_participants(@ordered_threads)
+		sort_read_and_unread(@participant_threads)		
 		@subject = get_attribute(msgs)[:subject]
-		
 	end
 
 	def refresh_gmail
