@@ -42,6 +42,7 @@
 		    	<h1 class="title">Past Threads</h1>
 			</header> 
 		    <div class="content">
+		    	<div class="segmented-control">
 		    	<% @read_and_unread['read'].each do |participants, thread| %>
 			    	<a class="control-item content-padded" href="#thread<%= i %>mobile">
 					    <% members = "" %>
@@ -57,6 +58,7 @@
 					    <%= members %>
 					</a>
 				<% end %>
+				</div>
 		    </div>
 		</div>
 	<% end %>
