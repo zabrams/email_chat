@@ -5,5 +5,9 @@
 		<p class="msg-hour">| <%= date.to_datetime.strftime("%H:%M%P") %></p>
 		<p class="msg-day"><%= email[:date].to_datetime.strftime("%b, %d") %></p>
 	</div>
-	<%= raw email[:body] %>
+	<% if count == 1 %>
+		<%= raw email[:body] %>
+	<% else %>
+		<%= raw remove_history(email[:body]) %>
+	<% end %>
 </li>

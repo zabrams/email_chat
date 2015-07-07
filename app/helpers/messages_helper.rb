@@ -9,6 +9,15 @@ module MessagesHelper
 		end
 	end
 
+	#take text before the 'gmail extra' tag
+	def remove_history(body)
+	  if matched_body = /(.*?)<div class=\"gmail_extra\">/m.match(body)
+	    matched_body[1]
+	  else
+	    body
+	  end
+	end
+
 	def get_name(from)
 		from.gsub(/<.*?>/, "").rstrip.gsub(/\A"|"\Z/, '')
 	end

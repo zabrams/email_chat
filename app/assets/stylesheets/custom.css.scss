@@ -28,6 +28,12 @@
   box-sizing:         border-box;
 }
 
+/* Application Layout */
+
+.content {
+	padding-bottom: 50px;
+}
+
 /* Response Nav */
 
 .bar.bar-tab {
@@ -108,7 +114,20 @@
 /* Show Message */
 
 .card {
-	margin: 10px 10px 60px 10px !important;
+	margin: 10px 10px 30px 10px !important;
+}
+
+.view-history {
+	width: 40%;
+	margin: 10px auto;
+	border: 1px solid #ccc;
+  	border-radius: 3px;
+  	text-align: center;
+
+  	a {
+  		font-size: 12px;
+  		padding: 5px;
+  	}
 }
 
 .msg-view {

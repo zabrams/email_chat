@@ -96,7 +96,7 @@ class Gmail
           parts = parts.first['parts']
         end
         if @body
-          match(decode(@body))
+          decode(@body)
         elsif @body_plain && @body == nil
           decode(@body_plain)
         end 
@@ -122,15 +122,6 @@ class Gmail
 
   def decode(body)
     Base64.urlsafe_decode64(body.to_s)
-  end
-
-  #take text before the 'gmail extra' tag
-  def match(body)
-    if matched_body = /(.*?)<div class=\"gmail_extra\">/m.match(body)
-      matched_body[1]
-    else
-      body
-    end
   end
 
   #Only take the first instance - 

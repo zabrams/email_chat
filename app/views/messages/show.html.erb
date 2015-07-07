@@ -34,7 +34,7 @@
 	</div>
 	<% end %>
 
-	<div class="card">
+	<div>
 		<% i = 1 %>
 		<% @participant_threads.each do |participants, thread| %>
 			<% if i == 1 %>
@@ -43,9 +43,14 @@
 				<% active = "" %>
 			<% end %>
 			<span id="thread<%= i %>mobile" class="control-content <%= active %>">
-			  	<ul class="msg-view">	
+			  	<div class="view-history"><a href="#">Some button to do something</a></div>
+			  	<ul class="msg-view">
+			  		<% count = 1 %>	
 					<% thread.each do |date, email| %>
-						<%= render 'messages/list_thread', :email => email, :date => date %>
+						<div class="card">
+							<%= render 'messages/list_thread', :email => email, :date => date, :count => count %>
+						</div>
+						<% count += 1 %>
 					<% end %>
 				</ul>
 			</span>
