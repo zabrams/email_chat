@@ -2,7 +2,11 @@
   <% group_participants(most_recent) %>
   <% if @num > 1 && @num <= 3 %>
     <% @participants.each do |name| %>
-      <div class="mult"> 
+      <% if unread %>
+        <div class="mult">
+      <% else %>
+        <div class="mult plus">
+      <% end %> 
         <p>
           <%= get_initials(name) %>
         </p>
@@ -10,7 +14,11 @@
     <% end %>
   <% elsif @num > 3  %>
     <% @participants[0,3].each do |name| %>
-      <div class="mult"> 
+      <% if unread %>
+        <div class="mult">
+      <% else %>
+        <div class="mult plus">
+      <% end %> 
         <p>
           <%= get_initials(name) %>
         </p>
@@ -22,7 +30,11 @@
       </p>
     </div>
   <% else %>
-    <div class="one"> 
+    <% if unread %>
+        <div class="one">
+      <% else %>
+        <div class="one plus">
+      <% end %> 
       <p>
         <%= get_initials(@participants.first) %>
       </p>

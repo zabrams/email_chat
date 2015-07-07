@@ -63,6 +63,7 @@ class Gmail
   def get_attribute_hash(data)
     { #id: data['id'],
       threadId: data['threadId'],
+      labels: data['labelIds'],
       subject: get_gmail_attribute(data, 'Subject'),
       from: get_gmail_attribute(data, 'From'),
       snippet:  data['snippet'],

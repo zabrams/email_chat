@@ -1,7 +1,8 @@
 <!-- HEADER CONTENT -->
 <% content_for :header_left do %>
   <%= link_to "Log out", logout_path, method: :delete, class: 'btn pull-left', :"data-transition" => "slide-out" %>
-  <%= link_to "Refresh", refresh_gmail_path, method: :post, class: 'btn pull-left' %>
+  <%= link_to refresh_gmail_path, method: :post, class: 'icon icon-refresh pull-left' do %> 
+  <% end %>
 <% end %>
 
 <% content_for :header_title do %>
@@ -15,12 +16,16 @@
       <li class="table-view-cell media">
         
         <%= link_to message_path(:sender => thread_id), :class => "navigate-right", :"data-transition" => "slide-in" do %>
-        
-        <span class="badge"><%= email.count %></span>
+        <% unread = false %>
+        <% email.each do |date, email_hash| %>        
+          <% if email_hash[:labels].include?('UNREAD') %>
+            <% unread = true %>
+          <% end %>
+        <% end %>
         
         <% most_recent = email.first.last %>
           
-          <%= render 'messages/participant_circle', :most_recent => most_recent %>
+          <%= render 'messages/participant_circle', :most_recent => most_recent, :unread => unread %>
           
           <div class="media-body">
             <p><%= most_recent[:subject] %> | <%= get_name(most_recent[:from]) %></p>

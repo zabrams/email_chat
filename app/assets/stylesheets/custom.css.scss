@@ -16,6 +16,18 @@
 	border-radius: 50px;
 }
 
+@mixin circle-plus {
+	&.plus {
+		background-color: white;
+
+		> p {
+			color: rgb(75,193,174);
+			border: 1px solid rgb(75,193,174);
+			border-radius: 50px;
+		}
+	}
+}
+
 /* miscellaneous */
 
 .debug_dump {
@@ -79,6 +91,7 @@
 		height: 100%; 
 		width: 100%;
 		@include image-circle;
+		@include circle-plus;
 
 		> p {
 			font-size: 18px;
@@ -91,20 +104,11 @@
 		height: 17.5px; 
 		width: 17.5px;
 		@include image-circle;
+		@include circle-plus;
 
 		> p {
 			font-size: 9px;
 			line-height: 17.5px;
-		}
-
-		&.plus {
-			background-color: white;
-
-			> p {
-				color: rgb(75,193,174);
-				border: 1px solid rgb(75,193,174);
-				border-radius: 50px;
-			}
 		}
 	}
 
