@@ -15,7 +15,7 @@
       <% @thread_hash.each do |thread_id, email| %>
       <li class="table-view-cell media">
         
-        <%= link_to message_path(:sender => thread_id), :class => "navigate-right", :"data-transition" => "slide-in" do %>
+        <%= link_to message_path(:thread => thread_id), :class => "navigate-right", :"data-transition" => "slide-in" do %>
         <% unread = false %>
         <% email.each do |date, email_hash| %>        
           <% if email_hash[:labels].include?('UNREAD') %>

@@ -16,7 +16,7 @@ class MessagesController < ApplicationController
 	end
 
 	def show
-		thread_id = params[:sender]
+		thread_id = params[:thread]
 		
 		msgs = session[:thread_hash][thread_id]
 		additional_threads = @gmail.get_threads(thread_id)

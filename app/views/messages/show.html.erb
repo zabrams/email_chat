@@ -9,7 +9,7 @@
 <% content_for :body do %>
 	<div class="all-participants">
 		<p>
-			<strong><%= @max_members %> participants: </strong></br>
+			<strong><%= pluralize(@max_members, 'participant') %>: </strong></br>
 		<% last = @members.pop %>
 		<% @members.each do |member| %>
 			<%= member+", " %>
