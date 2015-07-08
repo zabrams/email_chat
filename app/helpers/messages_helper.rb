@@ -92,6 +92,9 @@ module MessagesHelper
 
 	def sort_read_and_unread(thread_hash)
 		unread = false
+		append = false
+		ru_type = nil
+
 		@read_and_unread = { "unread" => {}, "read" => {} }
 		thread_hash.each do |names, date_thread|
 			date_thread.each do |date, thread|
@@ -99,6 +102,7 @@ module MessagesHelper
 					unread = true
 				end
 			end
+
 			if unread
 				@read_and_unread['unread'].merge!( names => date_thread )
 			else

@@ -7,84 +7,25 @@
 <% end %>
 
 <% content_for :body do %>
-	<% i = 1 %>
-	<% if @read_and_unread['unread'] && @read_and_unread['unread'].count > 1 %>
-		<div class="segmented-control">
-			<% @read_and_unread['unread'].each do |participants, thread| %>
-				<% if i == 1 %>
-					<% active = "active" %>
-				<% else %>
-					<% active = "" %>
-				<% end %>
-				 <a class="control-item <%= active %>" href="#thread<%= i %>mobile">
-				    <% members = "" %>
-				    <% if participants.count > 1 %>
-				    	<% last = participants.pop %>
-					    <% participants.each do |person| %>
-					    	<% members += get_initials(person).to_s+", " %>
-					    <% end %>
-				    	<% members += get_initials(last) %>
-				    <% else %>
-				    	<% members = get_initials(participants.first).to_s %>
-				    <% end %>
-				    <%= members %>
-				  </a>
-			  	<% i += 1 %>
-			<% end %>
-		</div>
-	<% end %>
-	<% unless @read_and_unread['read'].blank? %>
-		<% i += 1 %>
-		<div class="view-history"><a href="#pastThreads">Past Threads</a></div>
-		<div id="pastThreads" class="modal">
-			<header class="bar bar-nav">
-		    	<a class="icon icon-close pull-right" href="#pastThreads"></a>
-		    	<h1 class="title">Past Threads</h1>
-			</header> 
-		    <div class="content">
-		    	<div class="segmented-control">
-		    	<% @read_and_unread['read'].each do |participants, thread| %>
-			    	<a class="control-item content-padded" href="#thread<%= i %>mobile">
-					    <% members = "" %>
-					    <% if participants.count > 1 %>
-					    	<% last = participants.pop %>
-						    <% participants.each do |person| %>
-						    	<% members += get_initials(person).to_s+", " %>
-						    <% end %>
-					    	<% members += get_initials(last) %>
-					    <% else %>
-					    	<% members = get_initials(participants.first).to_s %>
-					    <% end %>
-					    <%= members %>
-					</a>
-				<% end %>
-				</div>
-		    </div>
-		</div>
-	<% end %>
-
-	<div>
-		<% i = 1 %>
-		<% @read_and_unread['unread'].each do |participants, thread| %>
-			<% if i == 1 %>
-				<% active = "active" %>
-			<% else %>
-				<% active = "" %>
-			<% end %>
-			<span id="thread<%= i %>mobile" class="control-content <%= active %>">
-			  	<ul class="msg-view">
-			  		<% count = 1 %>	
-					<% thread.each do |date, email| %>
-						<div class="card">
-							<%= render 'messages/list_thread', :email => email, :date => date, :count => count %>
-						</div>
-						<% count += 1 %>
-					<% end %>
-				</ul>
-			</span>
-			<% i += 1 %>
+	<div class="all-participants">
+		<p>
+			<strong><%= @max_members %> participants: </strong></br>
+		<% last = @members.pop %>
+		<% @members.each do |member| %>
+			<%= member+", " %>
 		<% end %>
-	</div>	
+		<%= last %>
+		</p>
+	</div>
+	<% count = 1 %>
+	<ul class="msg-view">
+	<% @ordered_threads.each do |date, email| %>
+		<div class="card">
+			<%= render 'messages/list_thread', :email => email, :date => date, :count => count %>
+		</div>
+		<% count += 1 %>
+	<% end %>
+	</ul>
 	
 		<!-- RESPONSE BUBBLE BELOW 
 		<div class="clear"></div>
@@ -92,6 +33,7 @@
 		  <p>Wow that's impressive. But what's even more impressive is that this bubble is really high.</p>
 		</div>
 		-->
+
 <% end %>
 
 <% content_for :lower_nav do %>

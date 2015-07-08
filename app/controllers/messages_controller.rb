@@ -28,8 +28,15 @@ class MessagesController < ApplicationController
 			@ordered_threads = msgs
 		end
 
-		group_threads_by_participants(@ordered_threads)
-		sort_read_and_unread(@participant_threads)		
+		@ordered_threads.each do |date, thread|
+			@max_members = 0
+			group_participants(thread)
+			if @num > @max_members
+				@max_members = @num
+				@members = @participants
+			end
+		end
+		#sort_read_and_unread(@participant_threads)		
 		@subject = get_attribute(msgs)[:subject]
 	end
 
