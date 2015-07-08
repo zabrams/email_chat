@@ -12,9 +12,6 @@ class MessagesController < ApplicationController
 		end
 	end
 
-	def inbox
-	end
-
 	def show
 		thread_id = params[:thread]
 		
@@ -28,6 +25,8 @@ class MessagesController < ApplicationController
 			@ordered_threads = msgs
 		end
 
+		session[:show_thread_msgs] = @ordered_threads
+
 		@ordered_threads.each do |date, thread|
 			@max_members = 0
 			group_participants(thread)
@@ -36,6 +35,9 @@ class MessagesController < ApplicationController
 				@members = @participants
 			end
 		end
+
+		group_threads_by_participants(@ordered_threads)
+		session[:participants] = @participant_key
 		#sort_read_and_unread(@participant_threads)		
 		@subject = get_attribute(msgs)[:subject]
 	end
@@ -43,6 +45,27 @@ class MessagesController < ApplicationController
 	def refresh_gmail
 		session[:thread_hash] = nil
 		redirect_to messages_url
+	end
+
+	def filter
+		all_threads = session[:show_thread_msgs]
+		@participant_key = session[:participants]
+		name_num = params[:filter].to_i
+		@participant_key.each do |names, key|
+			if key == name_num
+				@members = names
+			end
+		end
+		@max_members = @members.count
+		@ordered_threads = {}
+		all_threads.each do |date, thread|
+			group_participants(thread)
+			if @members == @participants.sort
+				@ordered_threads.merge!( date => thread )
+			end 
+		end
+		@subject = get_attribute(@ordered_threads)[:subject]
+		render "show"
 	end
 
 	private

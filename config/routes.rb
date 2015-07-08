@@ -3,7 +3,11 @@ Rails.application.routes.draw do
   delete 'logout' => 'sessions#destroy'
   #resources :sessions, only: :index
   get "/auth/:provider/callback" => 'sessions#create'
-  resources :messages, param: :thread
+  resources :messages, param: :thread do
+    member do
+      get 'filter', param: :filter
+    end
+  end
   post 'refresh', to: 'messages#refresh_gmail', as: :refresh_gmail
 
   # The priority is based upon order of creation: first created -> highest priority.

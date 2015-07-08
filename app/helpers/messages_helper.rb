@@ -36,7 +36,7 @@ module MessagesHelper
 	end
 
 	def group_participants(thread)
-		@num = 0
+		@num = 1
 		@participants = []
 		@participants.push(get_name(thread[:from]))
 		if to_field = thread[:to]
@@ -67,23 +67,23 @@ module MessagesHelper
 
 		#TODO ADD FROM PERSON TO PARTICIPANT LIST AND CLEAN UP
 		#_PARTICIPANT_CIRCLE CODE
-		@participant_threads = {}
+		@participant_key = {}
+		i = 1
 		threads.each do |date, thread|
 			group_participants(thread)
 			sorted_names = @participants.sort
-			if @participant_threads.blank?
-				@participant_threads.merge!( sorted_names => { date => thread } )
+			if @participant_key.blank?
+				@participant_key.merge!( sorted_names => i )
 			else
 				exist = false
-				@participant_threads.each do |existing_participants, existing_thread|
+				@participant_key.each do |existing_participants, existing_thread|
 					if sorted_names == existing_participants
 						exist = true
 					end 
 				end 
-				if exist
-					@participant_threads[sorted_names].merge!( { date => thread } )
-				else
-					@participant_threads.merge!( sorted_names => { date => thread } )
+				unless exist
+					i += 1
+					@participant_key.merge!( sorted_names => i )
 				end
 			end
 		end
