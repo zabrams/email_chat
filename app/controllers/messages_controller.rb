@@ -49,14 +49,13 @@ class MessagesController < ApplicationController
 
 	def filter
 		all_threads = session[:show_thread_msgs]
-		@participant_key = session[:participants]
+		participant_key = session[:participants]
 		name_num = params[:filter].to_i
-		@participant_key.each do |names, key|
+		participant_key.each do |names, key|
 			if key == name_num
 				@members = names
 			end
 		end
-		@max_members = @members.count
 		@ordered_threads = {}
 		all_threads.each do |date, thread|
 			group_participants(thread)
@@ -65,7 +64,6 @@ class MessagesController < ApplicationController
 			end 
 		end
 		@subject = get_attribute(@ordered_threads)[:subject]
-		render "show"
 	end
 
 	private

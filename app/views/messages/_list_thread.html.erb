@@ -7,18 +7,22 @@
 	</div>
 	<div class="msg-header">
 		<% group_participants(email) %>
-		<% @participant_key.each do |names, key| %>
-			<% if @participants.sort == names %>
-				<% @filter_val = key %>
+		<% if @participant_key %>
+			<% @participant_key.each do |names, key| %>
+				<% if @participants.sort == names %>
+					<% @filter_val = key %>
+				<% end %>
 			<% end %>
 		<% end %>
 		<% first = @participants.shift %>
 		<% last = @participants.pop %>
 		<p class="msg-hour"><% @participants.each do |participant| %> <%= participant + ", " %><% end %><%= last %>
 		</p>
-		<p class="msg-day">
-			<%= link_to 'filter', filter_message_path(:filter => @filter_val) %>
-		</p>
+		<% if @participant_key %>
+			<p class="msg-day">
+				<%= link_to 'filter', filter_message_path(:filter => @filter_val) %>
+			</p>
+		<% end %>
 	</div>
 	<% if count == 1 %>
 		<%= raw email[:body] %>
