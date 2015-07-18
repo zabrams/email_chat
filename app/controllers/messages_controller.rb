@@ -1,15 +1,14 @@
 class MessagesController < ApplicationController
 	before_action :logged_in_user, :connect
+	respond_to :html, :json
 
 	def index
-		if session[:thread_hash]
-			@thread_hash = session[:thread_hash]
-		else
-			connect
-			retrieve_messages
-			group_msg_by_thread
-			session[:thread_hash] = @thread_hash
-		end
+		connect
+		retrieve_messages
+		group_msg_by_thread
+		session[:thread_hash] = @thread_hash
+		#debugger
+		respond_with @thread_hash
 	end
 
 	def show

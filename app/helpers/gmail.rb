@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class Gmail
 
 	def initialize(token)
@@ -122,7 +124,7 @@ class Gmail
 	end
 
   def decode(body)
-    Base64.urlsafe_decode64(body.to_s)
+    Base64.urlsafe_decode64(body.to_s).gsub(/[^\x20-\x7E]/,"")
   end
 
   #Only take the first instance - 
