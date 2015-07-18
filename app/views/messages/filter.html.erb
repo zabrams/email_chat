@@ -1,0 +1,23 @@
+<% content_for :header_left do %>
+  <%= link_to :back, class: 'btn pull-left', :"data-transition" => "fade" do %>View all<% end %>
+<% end %>
+<% content_for :header_title do %>
+  <%= shorten(@subject) %>
+<% end %>
+
+
+<% content_for :body do %>
+	<% count = 1 %>
+	<ul class="msg-view">
+	<% @ordered_threads.each do |date, email| %>
+		<div class="card">
+			<%= render 'messages/list_thread', :email => email, :date => date, :count => count %>
+		</div>
+		<% count += 1 %>
+	<% end %>
+	</ul>
+<% end %>
+
+<% content_for :lower_nav do %>
+	<%= render 'layouts/lowernav_response' %>
+<% end %>

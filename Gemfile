@@ -24,6 +24,9 @@ gem 'json'
 gem 'google-api-client', :require => 'google/api_client'
 gem 'ratchet-sass'
 gem 'activerecord-session_store', github: 'rails/activerecord-session_store'
+gem 'active_model_serializers'
+gem 'responders', '~> 2.0'
+gem 'react-rails', '~> 1.0'
 
 group :development, :test do
   #gem 'pg'

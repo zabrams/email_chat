@@ -17,16 +17,6 @@
     <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   </head>
   <body>
-    <%= render 'layouts/header' %>
-    <!-- make sure to wrap all non-bar HTML in the .content div (this is actually what scrolls) -->
-    <div class="content">
-      <div class="content-padded">
-        <% flash.each do |message_type, message| %>
-          <div class="alert alert-<%= message_type %>"><%= message %></div>
-        <% end %>
-        <%= yield :body %>
-      </div>
-    </div>
-    <%= yield :lower_nav %>
+    <%= yield :body %>
   </body>
 </html>
