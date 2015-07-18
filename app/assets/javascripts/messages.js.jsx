@@ -117,13 +117,17 @@ var MessageBody = React.createClass({
 	}
 	if (this.props.chatView) {
 		rows.push(<MessageSummary email={this.props.chatView} key={this.props.chatView.threadId} onUserClick={this.props.onUserClick} />);
+		var messages = [];
+		this.props.chatView.forEach(function(email){
+			messages.push(<MessageDetail email={email} />);
+		}.bind(this));
 		return (
 	    	<ContentPadded>
 		    	<ul className="table-view">
 		    		{rows}
 				</ul>
 		    	<ul className="msg-view">
-		    		<MessageDetail email={this.props.chatView} />
+		    		{messages}
 		    	</ul>
 		    </ContentPadded>
 	    );
@@ -154,7 +158,7 @@ var Message = React.createClass({
 var EmailApp = React.createClass({
   getInitialState: function() {
   	return {
-  		chatView: '',
+  		chatView: "",
   		emails: [],
   	};
   },
@@ -165,7 +169,6 @@ var EmailApp = React.createClass({
   	$.ajax({
       url: this.props.url,
       dataType: 'json',
-      cache: false,
       success: function (emails) {
         this.setState({emails: emails});
       }.bind(this),
@@ -182,7 +185,7 @@ var EmailApp = React.createClass({
 	}
 	else {
 		this.setState({
-	  		chatView: '',
+	  		chatView: "",
 	  	});
 	}
   },

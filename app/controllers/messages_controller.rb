@@ -5,10 +5,8 @@ class MessagesController < ApplicationController
 	def index
 		connect
 		retrieve_messages
-		group_msg_by_thread
-		session[:thread_hash] = @thread_hash
 		array = []
-		array.push(@thread_hash)
+		array.push(@ordered_thread_hash)
 		respond_with array
 	end
 
@@ -75,16 +73,43 @@ class MessagesController < ApplicationController
 		end
 
 		def connect
-			unless @gmail
-				@gmail = Gmail.new(current_user.fresh_token)
-			end
+			@gmail = Gmail.new(current_user.fresh_token)
 		end
 
 		def retrieve_messages
-			@details = { }
+			thread_hash = { }
 			messages = @gmail.inbox['messages']
-			messages.each do |msg| 
-				@details.merge!(msg['id'] =>  @gmail.get_details(msg['id'])) 
+			messages.each do |msg|
+				details = @gmail.get_details(msg['id'])
+				threads = { details[:date] => details }
+				additional_threads = @gmail.get_threads(msg['threadId'])
+				if additional_threads
+					threads = threads.merge(additional_threads)
+				end
+				if thread_hash.blank?
+					thread_hash.merge!( msg['threadId'] => threads )
+				else 
+					exist = false
+					thread_hash.each do |msg_id, threads|
+						if msg['threadId'] == msg_id
+							exist = true
+						else
+							exist = false
+						end 
+					end
+
+					if exist
+						thread_hash[msg['threadId']].merge!( threads )
+					else
+						thread_hash.merge!( msg['threadId'] => threads )
+					end
+				end
+			end
+
+			@ordered_thread_hash = { }
+			thread_hash.each do |msg_id, threads|
+				ordered_thread = threads.sort_by { |k, v| k.to_datetime }
+				@ordered_thread_hash.merge!( msg_id => ordered_thread)
 			end
 		end
 		
