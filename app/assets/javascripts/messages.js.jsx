@@ -49,7 +49,7 @@ var MessageDetail = React.createClass({
 								 | {this.props.email.all_recip}
 							</p>
 						</div>
-						{this.props.email.body}
+						<div dangerouslySetInnerHTML={{__html: this.props.email.body}} />
 					</li>
 				</div>
 			</div>
@@ -100,8 +100,12 @@ var MessageBody = React.createClass({
     /* Maybe switch below to use map */
     if (!this.props.chatView) {
 	    this.props.emails.forEach(function(email){
-	    	rows.push(<MessageSummary email={email} key={email.threadId} onUserClick={this.props.onUserClick} />);
-	    }.bind(this));
+		    for (var key in email) {
+		    	if (email.hasOwnProperty(key)) {
+		    		rows.push(<MessageSummary email={email[key]} key={email[key].threadId} onUserClick={this.props.onUserClick} />);
+		    	}
+		    }
+		}.bind(this));
 	    return (
 	    	<ContentPadded>
 		    	<ul className="table-view">
@@ -151,16 +155,24 @@ var EmailApp = React.createClass({
   getInitialState: function() {
   	return {
   		chatView: '',
-  		emails: '',
+  		emails: [],
   	};
   },
   componentWillMount: function () {
-    this.loadCommentsFromServer();
+    this.loadMessagesFromServer();
   },
-  loadCommentsFromServer: function () {
-  	this.setState({
-  		emails: EMAILS,
-  	});
+  loadMessagesFromServer: function () {
+  	$.ajax({
+      url: this.props.url,
+      dataType: 'json',
+      cache: false,
+      success: function (emails) {
+        this.setState({emails: emails});
+      }.bind(this),
+      error: function (xhr, status, err) {
+        console.error(this.props.url, status, err.toString());
+      }.bind(this)
+    });
   },
   handleClick: function(email) {
   	if (this.state.chatView === '') {
@@ -185,19 +197,36 @@ var EmailApp = React.createClass({
 });
 
 var EMAILS = [
-	{threadId: 123456, labels: ["UNREAD", "IMPORTANT"], subject: 'Subject 1', from: 'Zach Abrams <zachary.abrams@gmail.com>',
-      snippet:  'This is a snippet', body: 'Lorem ipsum ipsum ipsum ipsum ipsum ipsum ipsum ipsum ipsum ipsum ipsum ipsum', 
-      date:  'June 21, 1985', to: 'Zach Abrams <zabrams@squareup.com>', cc: "James James <james@jones.com>, Kim Jun <kim@jun.com>", 
-      all_recip: "Zach Abrams, James Jones, Kim Jun"},
-      {threadId: 12344566, labels: ["UNREAD", "IMPORTANT"], subject: 'Subject 2', from: 'Zach Abrams <zachary.abrams@gmail.com>',
-      snippet:  'This is a snippet', body: 'Lorem ipsum ipsum ipsum ipsum ipsum ipsum ipsum ipsum ipsum ipsum ipsum ipsum', 
-      date:  'June 21, 1985', to: '<zabrams@squareup.com>', cc: "James James <james@jones.com>, Kim Jun <kim@jun.com>",
-  	  all_recip: "Zach Abrams, James Jones, Kim Jun"}
+	{"14ea22e0b4d65f1e":
+		{"threadId":"14ea22e0b4d65f1e",
+		"labels":["INBOX","CATEGORY_FORUMS","UNREAD"],
+		"subject":"Fwd: R12 pre-order: Week 6 update",
+		"from":"Jack Dorsey \u003cjack@squareup.com\u003e",
+		"snippet":"Team, happy Saturday and if you\u0026#39;re in SF I\u0026#39;ll see you at the picnic soon. Thought this was",
+		"body":"Team, happy Saturday and if", 
+		"date":"Sat, 18 Jul 2015 10:19:18 -0700",
+		"to":"Square \u003cteam@squareup.com\u003e",
+		"cc":null,
+		"all_recip":"Jack Dorsey, Square"
+		},
+	"14dd5a86b9668a5a":
+		{"threadId":"14dd5a86b9668a5a",
+		"labels":["INBOX","CATEGORY_PERSONAL"],
+		"subject":"Fwd: Intercom on Customer Engagment",
+		"from":"Collin Wikman \u003ccollin@squareup.com\u003e",
+		"snippet":"---------- Forwarded message --------- From: Jimmy Nelson \u0026lt;jnelson@squareup.com\u0026gt; Date: Mon, Jun",
+		"body":"\u003cdiv dir=\"ltr\"\u003e\u003cbr\u003e\u003cbr\u003e\u003cdiv class=\"gmail_quote\"\u003e\u003cdiv dir=\"ltr\"\u003e---------- Forwarded message ---------\u003cbr\u003eFrom: Jimmy Nelson \u0026lt;\u003ca href=\"mailto:jnelson@squareup.com\"\u003ejnelson@squareup.com\u003c/a\u003e\u0026gt;\u003cbr\u003eDate: Mon, Jun 8, 2015 at 1:45 PM\u003cbr\u003eSubject: Intercom on Customer Engagment\u003cbr\u003eTo: Collin Wikman \u0026lt;\u003ca href=\"mailto:collin@squareup.com\"\u003ecollin@squareup.com\u003c/a\u003e\u0026gt;, Nathan Hills \u0026lt;\u003ca href=\"mailto:nathanhills@squareup.com\"\u003enathanhills@squareup.com\u003c/a\u003e\u0026gt;, Dave Johannes \u0026lt;\u003ca href=\"mailto:dave@squareup.com\"\u003edave@squareup.com\u003c/a\u003e\u0026gt;\u003cbr\u003e\u003c/div\u003e\u003cbr\u003e\u003cbr\u003e\u003cdiv dir=\"ltr\"\u003eA-Yo!\u003cdiv\u003e\u003cbr\u003e\u003c/div\u003e\u003cdiv\u003eIntercom did a smart \u003ca href=\"https://medium.com/@intercom/how-to-educate-and-persuade-customers-11a975751e8b\" target=\"_blank\"\u003elittle Medium post\u003c/a\u003e on \u0026#39;How to Educate and Persuade Customers\u0026#39; which was a teaser for a larger pdf book (\u003ca href=\"https://www.intercom.io/books/customer-engagement?utm_medium=article\u0026amp;utm_source=medium\u0026amp;utm_campaign=ce-book-medium#download\" target=\"_blank\"\u003eIntercom on customer engagement\u003c/a\u003e) that you can download for free if you give them your email.\u003cbr\u003e\u003cbr\u003eI attached the pdfactually a good read i suggest you guys check out.\u003c/div\u003e\u003cdiv\u003e\u003cbr\u003e\u003c/div\u003e\u003cdiv\u003e\u003cbr\u003e\u003c/div\u003e\u003c/div\u003e\u003c/div\u003e\u003c/div\u003e",
+		"date":"Tue, 09 Jun 2015 00:11:20 +0000",
+		"to":"Zach Abrams \u003czabrams@squareup.com\u003e",
+		"cc":null
+		}
+	}
+
 ];
 
 var ready = function () {
   React.render(
-    <EmailApp />,
+    <EmailApp url="/messages.json"/>,
     document.getElementById('inbox')
   );
 };

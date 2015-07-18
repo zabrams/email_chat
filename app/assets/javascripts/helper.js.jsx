@@ -1,5 +1,5 @@
 function getName(from) {
-	return from.replace(/<.*?>/, "").trim().replace(/\A"|"\Z/, '');
+	return from.replace(/<.*?>|["()]/, "").trim().replace(/\A"|"\Z/, '');
 };
 
 function getInitials(from) {

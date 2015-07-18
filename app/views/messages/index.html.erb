@@ -2,37 +2,3 @@
   <div id="inbox"></div>
 <% end %>
 
-<!--
-<h4>Conversations (<%= @thread_hash.count %>)</h4>
-<ul class="table-view">
-    <% @thread_hash.each do |thread_id, email| %>
-    <li class="table-view-cell media">
-      
-      <%= link_to message_path(:thread => thread_id), :class => "navigate-right", :"data-transition" => "slide-in" do %>
-      <% unread = false %>
-      <% email.each do |date, email_hash| %>        
-        <% if email_hash[:labels].include?('UNREAD') %>
-          <% unread = true %>
-        <% end %>
-      <% end %>
-      
-      <% most_recent = email.first.last %>
-        
-        <%= render 'messages/participant_circle', :most_recent => most_recent, :unread => unread %>
-        
-        <div class="media-body">
-          <p><%= most_recent[:subject] %> | <%= get_name(most_recent[:from]) %></p>
-          <p><%= most_recent[:snippet] %></p>
-        </div>
-      
-      <% end %>
-    
-    </li>
-    
-    <% end %>
-</ul>
--->
-
-
-
-

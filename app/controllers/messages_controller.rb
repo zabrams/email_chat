@@ -7,8 +7,9 @@ class MessagesController < ApplicationController
 		retrieve_messages
 		group_msg_by_thread
 		session[:thread_hash] = @thread_hash
-		#debugger
-		respond_with @thread_hash
+		array = []
+		array.push(@thread_hash)
+		respond_with array
 	end
 
 	def show
@@ -92,7 +93,7 @@ class MessagesController < ApplicationController
 			@details.each do |msg_id, data|
 				threadId = data[:threadId]
 				if @thread_hash.blank?
-					@thread_hash.merge!( threadId => { data[:date] => data } )
+					@thread_hash.merge!( threadId => data )
 				else
 					exist = false
 					@thread_hash.each do |thread_id, email_hash|
@@ -105,9 +106,9 @@ class MessagesController < ApplicationController
 					end
 
 					if exist
-						@thread_hash[@existing_id].merge!( data[:date] => data )
+						@thread_hash[@existing_id].merge!( data )
 					else
-						@thread_hash.merge!( threadId => { data[:date] => data } )
+						@thread_hash.merge!( threadId => data )
 					end
 				end
 			end
