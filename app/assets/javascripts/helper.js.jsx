@@ -12,14 +12,20 @@ function getInitials(from) {
 };
 
 function removeHistory(body) {
-	var new_body = "";
-	if (matched_body = body.match(/(.*?)<div class=\"gmail_extra\">/m)) {
-	    new_body = matched_body[0];
+	var newBody = "";
+	if (matchedBody = body.match(/(.*?)<div class=\"gmail_extra\">|(.*?)<div class=\"gmail_quote\">/m)) {
+	    newBody = matchedBody[0];
+	    if (matchMailto = matchedBody[0].match(/(.*?)Sent:|(.*?)wrote:/m)) {
+	    	newBody = matchMailto[0];
+	    }
+	}
+	else if (matchMailto = body.match(/(.*?)Sent:|(.*?)wrote:/m)) {
+		newBody = matchMailto[0];
 	}
 	else {
-	    new_body = body;
+	    newBody = body;
 	}
-	return new_body;
+	return newBody;
 }
 
 function displayDate(string) {
