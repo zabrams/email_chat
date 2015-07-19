@@ -39,17 +39,17 @@ var MessageDetail = React.createClass({
 		return (
 			<div>
 				<div className="card timecard">
-					<p className="msg-time"> 8:23pm | {this.props.email.date} </p>
+					<p className="msg-time"> {displayDate(this.props.email[1].date)} </p>
 				</div>
 				<div className="card">
 					<li className="msg-view-cell">
 						<div className="msg-header">
-							<p className="msg-from"> {getName(this.props.email.from)} </p>
+							<p className="msg-from"> {getName(this.props.email[1].from)} </p>
 							<p>
-								 | {this.props.email.all_recip}
+								 | {this.props.email[1].all_recip}
 							</p>
 						</div>
-						<div dangerouslySetInnerHTML={{__html: this.props.email.body}} />
+						<div dangerouslySetInnerHTML={{__html: removeHistory(this.props.email[1].body)}} />
 					</li>
 				</div>
 			</div>
@@ -65,13 +65,15 @@ var MessageSummary = React.createClass({
   	console.log(this.props.email)
   },
   render: function() {
+    var length = this.props.email.length;
+    var display_email = this.props.email[length-1];
     return (
 		<li className="table-view-cell media">
 			<a className="email-summary" onClick={this.viewThread}>
-				<ParticipantCircle email={this.props.email} />
+				<ParticipantCircle email={display_email[1]} />
 				<div className="media-body">
-					<p> {this.props.email.subject} | {getName(this.props.email.from)} </p>
-					<p> {this.props.email.snippet} </p>
+					<p> {display_email[1].subject} | {getName(display_email[1].from)} </p>
+					<p> {display_email[1].snippet} </p>
 				</div>
 			</a>
 		</li>
@@ -102,7 +104,7 @@ var MessageBody = React.createClass({
 	    this.props.emails.forEach(function(email){
 		    for (var key in email) {
 		    	if (email.hasOwnProperty(key)) {
-		    		rows.push(<MessageSummary email={email[key]} key={email[key].threadId} onUserClick={this.props.onUserClick} />);
+		    		rows.push(<MessageSummary email={email[key]} key={key} onUserClick={this.props.onUserClick} />);
 		    	}
 		    }
 		}.bind(this));
@@ -116,10 +118,10 @@ var MessageBody = React.createClass({
 			    	
 	}
 	if (this.props.chatView) {
-		rows.push(<MessageSummary email={this.props.chatView} key={this.props.chatView.threadId} onUserClick={this.props.onUserClick} />);
+		rows.push(<MessageSummary email={this.props.chatView} onUserClick={this.props.onUserClick} />);
 		var messages = [];
 		this.props.chatView.forEach(function(email){
-			messages.push(<MessageDetail email={email} />);
+			messages.push(<MessageDetail email={email} key={email[0]} />);
 		}.bind(this));
 		return (
 	    	<ContentPadded>
@@ -162,7 +164,7 @@ var EmailApp = React.createClass({
   		emails: [],
   	};
   },
-  componentWillMount: function () {
+  componentDidMount: function () {
     this.loadMessagesFromServer();
   },
   loadMessagesFromServer: function () {

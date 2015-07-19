@@ -1,6 +1,7 @@
 # encoding: utf-8
 
 class Gmail
+  include MessagesHelper
 
 	def initialize(token)
 		@client = Google::APIClient.new(:application_name => "Email Chat")
@@ -32,7 +33,9 @@ class Gmail
     		:headers => {'Content-Type' => 'application/json'})
   		data = JSON.parse(results.body)
       
-      get_attribute_hash(data)
+      details = get_attribute_hash(data)
+      add_participant_list(details)
+      return details
   end
 
   def get_messages_from(sender)
@@ -54,6 +57,7 @@ class Gmail
       data.each do |message|
         unless message['labelIds'].include?("INBOX")
           hash = get_attribute_hash(message)
+          add_participant_list(hash)
           date = hash[:date]
           thread_messages.merge!( date => hash )
         end
@@ -139,6 +143,17 @@ class Gmail
         end
       end
     end
+  end
+
+  def add_participant_list(attribute_hash)
+    participants = ""
+    parts = group_participants(attribute_hash)
+    last = parts.pop
+    parts.each do |member|
+      participants += member+", "
+    end
+    participants += last
+    attribute_hash[:all_recip] = participants;
   end
 
 end

@@ -36,9 +36,7 @@ module MessagesHelper
 	end
 
 	def group_participants(thread)
-		@num = 1
 		@participants = []
-		@participants.push(get_name(thread[:from]))
 		if to_field = thread[:to]
 			build_participant_list(to_field)
 		end
@@ -46,6 +44,7 @@ module MessagesHelper
 		if cc_field = thread[:cc]
 			build_participant_list(cc_field)
 		end
+		return @participants
 	end
 
 	def build_participant_list(field)
@@ -57,7 +56,6 @@ module MessagesHelper
 			@participants.push(name_only)
 			#end
 		end
-		@num += members.count
 	end
 
 	def group_threads_by_participants(threads)
